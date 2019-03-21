@@ -9,18 +9,16 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static org.junit.Assert.*;
-
 public class RegisterServletTest {
 
     @Test
     public void doPost() {
         User user0 = new User();
-        user0.setUsername("ZhangSan");
+        user0.setNickname("ZhangSan");
         user0.setPassword("123456");
         user0.setUserid("z001");
         User user1 = new User();
-        user1.setUsername("hu2");
+        user1.setNickname("hu2");
         user1.setPassword("123456");
         user1.setUserid("2");
         handleRegist(regist(user1));
@@ -54,7 +52,7 @@ public class RegisterServletTest {
         String url=null;
         String json=null;
         try {
-            conn = (HttpURLConnection) new URL("http://192.168.1.102:8080/testServer_war_exploded/register").openConnection();
+            conn = (HttpURLConnection) new URL("http://192.168.1.102:8080/MyServlets_war_exploded/register").openConnection();
             conn.setConnectTimeout(50000);
             conn.setReadTimeout(30000);
             conn.setDoInput(true);

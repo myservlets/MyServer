@@ -13,11 +13,11 @@ public class LoginServletTest {
     @org.junit.Test
     public void doPost() {
         User user0 = new User();
-        user0.setUsername("ZhangSan");
+        //user0.setNickname("ZhangSan");
         user0.setPassword("123456");
-        user0.setUserid("z001");
+        user0.setUserid("z002");
         User user1 = new User();
-        user1.setUsername("hu1");
+        //user1.setNickname("hu1");
         user1.setPassword("123456");
         user1.setUserid("2");
         handleLogin(login(user1));
@@ -28,7 +28,7 @@ public class LoginServletTest {
         String url=null;
         String json=null;
         try {
-            conn = (HttpURLConnection) new URL("http://192.168.1.102:8080/testServer_war_exploded/login").openConnection();
+            conn = (HttpURLConnection) new URL("http://192.168.1.102:8080/MyServlets_war_exploded/login").openConnection();
             conn.setConnectTimeout(50000);
             conn.setReadTimeout(30000);
             conn.setDoInput(true);
@@ -80,7 +80,7 @@ public class LoginServletTest {
                 System.out.println("登录成功！！！");
             }else if (flag==1){
                 //登录失败
-                System.out.println("连接数据库失败！！！");
+                System.out.println("登录失败！！！");
             }
             else if(flag == 2){
                 System.out.println("用户名或密码错误！！！");

@@ -36,8 +36,8 @@ public class RegisterServlet extends HttpServlet {
             user=gson.fromJson(userStr,User.class);
 
 
-            //密码验证结果
-            int result = registUser(user.getUsername(),user.getPassword(),user.getUserid());
+            //结果
+            int result = registUser(user.getNickname(),user.getPassword(),user.getUserid());
 
             Map<String, Integer> params = new HashMap<>();
             params.put("result",result);
@@ -58,7 +58,7 @@ public class RegisterServlet extends HttpServlet {
     }
 
     private int registUser(String userName, String password, String userId) {
-        User user = UserDAO.queryUser(userName);
+        User user = UserDAO.queryUser(userId);
         if(user != null)
             return 1;
         user = UserDAO.insertUser(userName,password,userId);
