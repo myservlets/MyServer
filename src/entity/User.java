@@ -4,6 +4,7 @@ public class User {
     private String nickname;
     private String password;
     private String userid;
+    private String icon;
 
     public String getNickname() {
         return nickname;
@@ -27,5 +28,13 @@ public class User {
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

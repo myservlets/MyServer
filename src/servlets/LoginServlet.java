@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             reader.close();
 
             user=gson.fromJson(userStr,User.class);
-            User user0 = UserDAO.queryUser(user.getUserid());
+            User user0 = UserDAO.queryUser(user.getNickname());
             Boolean verifyResult = (user0 != null) && user.getPassword().equals(user0.getPassword());
 
             String s;
