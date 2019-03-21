@@ -2,7 +2,9 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import data_access_object.FriendDAO;
 import data_access_object.UserDAO;
+import entity.FriendShip;
 import entity.User;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @WebServlet(name = "AddFriendServlet")
 public class AddFriendServlet extends HttpServlet {
@@ -21,7 +24,7 @@ public class AddFriendServlet extends HttpServlet {
         //初始化
         System.out.println("add friend:");
         Gson gson = new Gson();
-        String s;
+        String s="";
         // 设置响应内容类型
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf-8");
@@ -41,14 +44,39 @@ public class AddFriendServlet extends HttpServlet {
             User user0 = gson.fromJson(jsonObject.get("User0").toString(), User.class);
             User user1 = gson.fromJson(jsonObject.get("User1").toString(), User.class);
 
+            switch (sign){
+                case 0:
+                    //添加好友
+                    User user2 = UserDAO.queryUser(user1.getUserid());
+                    if(user2 == null){
+                        s = "{'status':1}";//用户不存在
+                    }
+                    else {
+                        ArrayList<FriendShip> friendShips = FriendDAO.queryFriend(user0.getUserid(),user1.getUserid(),0);
+                        if((friendShips != null)&& !friendShips.isEmpty()){
+                            s = "{'status':0}";//已发送好友请求
+                            break;
+                        }
+                        friendShips = FriendDAO.queryFriend(user0.getUserid(),user1.getUserid(),1);
+                        ArrayList<FriendShip> friendShips1 = FriendDAO.queryFriend(user1.getUserid(),user0.getUserid(),1);
+                        if((friendShips != null)||(friendShips1 != null)){
+                            s = "{'status':3}";//该用户已在你的好友列表
+                            break;
+                        }
+                        int i = FriendDAO.addFriend(user0.getUserid(),user1.getUserid(),0);
+                        s = "{'status':"+i+"}";//已发送好友请求或失败
+                    }
+                    break;
+                case 1:
+                    int i = FriendDAO.updateFriendStatus(user1.getUserid(),user0.getUserid(),1);
+                    s = "{'status':"+i+"}";//已接受好友请求或失败
+                    break;
+                case 2:
+                    i = FriendDAO.updateFriendStatus(user1.getUserid(),user0.getUserid(),2);
+                    s = "{'status':"+i+"}";//已接受好友请求或失败
+                    break;
+            }
 
-            User user2 = UserDAO.queryUser(user1.getUserid());
-            if(user2 == null){
-                s = "{'status':1}";
-            }
-            else {
-                s = "{'status':0}";
-            }
 
             out.write(s);
         }
@@ -61,6 +89,6 @@ public class AddFriendServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }
