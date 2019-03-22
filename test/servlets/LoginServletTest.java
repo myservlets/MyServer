@@ -2,6 +2,7 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import conn_interface.ServletsConn;
 import entity.User;
 
 import java.io.*;
@@ -24,49 +25,9 @@ public class LoginServletTest {
     }
 
     public static String login(User user){
-        HttpURLConnection conn = null;
-        String url=null;
-        String json=null;
-        try {
-            conn = (HttpURLConnection) new URL("http://localhost:8080/login").openConnection();
-            conn.setConnectTimeout(50000);
-            conn.setReadTimeout(30000);
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-            OutputStream out = conn.getOutputStream();
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
-            Gson gson=new Gson();
-            String json1=gson.toJson(user);
-            System.out.println(json1);
-            bw.write(json1);
-            bw.flush();
-            out.close();
-            bw.close();
-
-            InputStream in = conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String str = null;
-            StringBuffer buffer = new StringBuffer();
-            while((str = br.readLine())!=null){
-                buffer.append(str);
-            }
-            in.close();
-            br.close();
-            json=buffer.toString();
-
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 意外退出时进行连接关闭保护
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-        System.out.println(json);
-        return json;
+        Gson gson=new Gson();
+        String json1=gson.toJson(user);
+        return ServletsConn.connServlets("login",json1);
     }
 
     public static void handleLogin(String json) {

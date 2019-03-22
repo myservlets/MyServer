@@ -4,6 +4,7 @@ public class Goods {
     private String goodsId;
     private String goodsName;
     private double price;
+<<<<<<< HEAD
 
     public String getGoodsId() {
         return goodsId;
@@ -28,4 +29,9 @@ public class Goods {
     public void setPrice(double price) {
         this.price = price;
     }
+=======
+    private String userId;
+    private int quantity;
+
+>>>>>>> 1d9886581853c87ccf1710fff8a57bb6683254b7
 }
