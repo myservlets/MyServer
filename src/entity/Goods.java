@@ -6,6 +6,7 @@ public class Goods {
     private double price;
     private String userid;
     private int quantity;
+    private int i;
 
 
     public String getGoodsid() {
