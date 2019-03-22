@@ -2,7 +2,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
