@@ -6,7 +6,6 @@ import com.sun.deploy.net.HttpRequest;
 import com.sun.deploy.net.HttpResponse;
 import data_access_object.ReceiveInfoDAO;
 import entity.ReceiveInfo;
-import net.sf.json.JSON;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
