@@ -36,7 +36,7 @@ public class UserDAO {
             resultSet = preparedStatement.executeQuery();
             User user = new User();
             if (resultSet.next()) {
-                user.setNickname(resultSet.getString("userName"));
+                user.setNickname(resultSet.getString("nickName"));
                 user.setPassword(resultSet.getString("password"));
                 user.setUserid(resultSet.getString("userId"));
                 return user;
@@ -80,6 +80,34 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement,null);
+        }
+    }
+
+    public static int updateUser(int sign,String s,User user){
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        String[] strings = new String[3];
+        strings[0]="nickname";
+        strings[1]="password";
+        strings[2]="icon";
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("UPDATE users set "+ strings[sign] +" = ? where " +
+                "userid = ?");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setString(1, s);
+            preparedStatement.setString(2, user.getUserid());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
         } finally {
             DBManager.closeAll(connection, preparedStatement,null);
         }

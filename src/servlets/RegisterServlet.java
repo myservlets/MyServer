@@ -40,8 +40,9 @@ public class RegisterServlet extends HttpServlet {
             int result = registUser(user.getNickname(),user.getPassword(),user.getUserid());
 
             Map<String, Integer> params = new HashMap<>();
-            params.put("status",result);
 
+            params.put("result",result);
+            params.put("status",result);
             String s = gson.toJson(params);
             out.write(s);
         }

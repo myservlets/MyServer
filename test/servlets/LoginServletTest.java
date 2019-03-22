@@ -20,8 +20,8 @@ public class LoginServletTest {
         User user1 = new User();
         //user1.setNickname("hu1");
         user1.setPassword("123456");
-        user1.setUserid("1");
-        handleLogin(login(user0));
+        user1.setUserid("2");
+        handleLogin(login(user1));
     }
 
     public static String login(User user){
@@ -51,6 +51,4 @@ public class LoginServletTest {
             System.out.println("登录失败！！！");
         }
     }
-
-
 }

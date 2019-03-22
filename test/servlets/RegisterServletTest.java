@@ -23,7 +23,6 @@ public class RegisterServletTest {
         user1.setPassword("123456");
         user1.setUserid("2");
         handleRegist(regist(user1));
-
     }
 
     private void handleRegist(String json) {
@@ -31,6 +30,7 @@ public class RegisterServletTest {
         if(json != null) {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+            result = Integer.parseInt(jsonObject.get("result").toString());
             result = Integer.parseInt(jsonObject.get("status").toString());
         }
 

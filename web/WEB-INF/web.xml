@@ -48,20 +48,39 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddFriendServlet</servlet-name>
-        <servlet-class>servlets.AddFriendServlet</servlet-class>
+        <servlet-name>ReceivingInfoServlet</servlet-name>
+        <servlet-class>servlets.ReceivingInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddFriendServlet</servlet-name>
-        <url-pattern>/addfriend</url-pattern>
+        <servlet-name>ReceivingInfoServlet</servlet-name>
+        <url-pattern>/ReceiveInfo</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>FriendsServlet</servlet-name>
-        <servlet-class>servlets.FriendsServlet</servlet-class>
+        <servlet-name>ReceiveInfoServletList</servlet-name>
+        <servlet-class>servlets.ReceiveInfoListServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FriendsServlet</servlet-name>
-        <url-pattern>/friends</url-pattern>
+        <servlet-name>ReceiveInfoServletList</servlet-name>
+        <url-pattern>/ReceiveInfoList</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditReceivingInfoServlet</servlet-name>
+        <servlet-class>servlets.EditReceivingInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditReceivingInfoServlet</servlet-name>
+        <url-pattern>/EditReceivingInfo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AccountManageServlet</servlet-name>
+        <servlet-class>servlets.AccountManageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccountManageServlet</servlet-name>
+        <url-pattern>/AccountManage</url-pattern>
+    </servlet-mapping>
+
 </web-app>
