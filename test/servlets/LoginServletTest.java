@@ -5,10 +5,6 @@ import com.google.gson.JsonObject;
 import conn_interface.ServletsConn;
 import entity.User;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class LoginServletTest {
 
     @org.junit.Test
@@ -16,11 +12,11 @@ public class LoginServletTest {
         User user0 = new User();
         //user0.setNickname("ZhangSan");
         user0.setPassword("123456");
-        user0.setUserid("z002");
+        user0.setUserId("z002");
         User user1 = new User();
         //user1.setNickname("hu1");
         user1.setPassword("123456");
-        user1.setUserid("2");
+        user1.setUserId("2");
         handleLogin(login(user1));
     }
 

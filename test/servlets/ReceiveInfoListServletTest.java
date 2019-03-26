@@ -7,12 +7,7 @@ import entity.ReceiveInfo;
 import entity.User;
 import org.junit.Test;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 /**
  * 查询收货信息列表
@@ -27,7 +22,7 @@ public class ReceiveInfoListServletTest {
         User user1 = new User();
         user1.setNickname("hu1");
         user1.setPassword("123456");
-        user1.setUserid("2");
+        user1.setUserId("2");
         handleEditReceiveInfo(editReceiveInfo(user1));
     }
 

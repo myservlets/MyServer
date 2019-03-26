@@ -47,32 +47,32 @@ public class AddFriendServlet extends HttpServlet {
             switch (sign){
                 case 0:
                     //添加好友
-                    User user2 = UserDAO.queryUser(user1.getUserid());
+                    User user2 = UserDAO.queryUser(user1.getUserId());
                     if(user2 == null){
                         s = "{'status':1}";//用户不存在
                     }
                     else {
-                        ArrayList<FriendShip> friendShips = FriendDAO.queryFriend(user0.getUserid(),user1.getUserid(),0);
+                        ArrayList<FriendShip> friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),0);
                         if((friendShips != null)&& !friendShips.isEmpty()){
                             s = "{'status':0}";//已发送好友请求
                             break;
                         }
-                        friendShips = FriendDAO.queryFriend(user0.getUserid(),user1.getUserid(),1);
-                        ArrayList<FriendShip> friendShips1 = FriendDAO.queryFriend(user1.getUserid(),user0.getUserid(),1);
+                        friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),1);
+                        ArrayList<FriendShip> friendShips1 = FriendDAO.queryFriend(user1.getUserId(),user0.getUserId(),1);
                         if((friendShips != null)||(friendShips1 != null)){
                             s = "{'status':3}";//该用户已在你的好友列表
                             break;
                         }
-                        int i = FriendDAO.addFriend(user0.getUserid(),user1.getUserid(),0);
+                        int i = FriendDAO.addFriend(user0.getUserId(),user1.getUserId(),0);
                         s = "{'status':"+i+"}";//已发送好友请求或失败
                     }
                     break;
                 case 1:
-                    int i = FriendDAO.updateFriendStatus(user1.getUserid(),user0.getUserid(),1);
+                    int i = FriendDAO.updateFriendStatus(user1.getUserId(),user0.getUserId(),1);
                     s = "{'status':"+i+"}";//已接受好友请求或失败
                     break;
                 case 2:
-                    i = FriendDAO.updateFriendStatus(user1.getUserid(),user0.getUserid(),2);
+                    i = FriendDAO.updateFriendStatus(user1.getUserId(),user0.getUserId(),2);
                     s = "{'status':"+i+"}";//已接受好友请求或失败
                     break;
             }

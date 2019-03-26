@@ -3,7 +3,7 @@ package entity;
 public class User {
     private String nickname;
     private String password;
-    private String userid;
+    private String userId;
     private String icon;
 
     public String getNickname() {
@@ -22,12 +22,12 @@ public class User {
         this.password = password;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getIcon() {

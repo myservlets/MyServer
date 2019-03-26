@@ -6,10 +6,6 @@ import conn_interface.ServletsConn;
 import entity.User;
 import org.junit.Test;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class RegisterServletTest {
 
     @Test
@@ -17,11 +13,11 @@ public class RegisterServletTest {
         User user0 = new User();
         user0.setNickname("ZhangSan");
         user0.setPassword("123456");
-        user0.setUserid("z001");
+        user0.setUserId("z001");
         User user1 = new User();
         user1.setNickname("hu2");
         user1.setPassword("123456");
-        user1.setUserid("2");
+        user1.setUserId("2");
         handleRegist(regist(user1));
     }
 

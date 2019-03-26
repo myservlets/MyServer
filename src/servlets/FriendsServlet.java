@@ -47,27 +47,27 @@ public class FriendsServlet extends HttpServlet {
             ArrayList<FriendShip> friendShips;
             switch (sign){
                 case 0:
-                    friendShips = FriendDAO.queryFriend("*",user.getUserid(),0);
+                    friendShips = FriendDAO.queryFriend("*",user.getUserId(),0);
                     for(int i=0;i<friendShips.size();i++){
                         userArrayList.add(UserDAO.queryUser(friendShips.get(i).getUid()));
                         userArrayList.get(i).setPassword("");
                     }
                     break;
                 case 1:
-                    friendShips = FriendDAO.queryFriend(user.getUserid(),"*",0);
+                    friendShips = FriendDAO.queryFriend(user.getUserId(),"*",0);
                     for(int i=0;i<friendShips.size();i++){
                         userArrayList.add(UserDAO.queryUser(friendShips.get(i).getCid()));
                         userArrayList.get(i).setPassword("");
                     }
                     break;
                 case 2:
-                    friendShips = FriendDAO.queryFriend(user.getUserid(),"*",1);
+                    friendShips = FriendDAO.queryFriend(user.getUserId(),"*",1);
                     for(int i=0;i<friendShips.size();i++){
                         User via = UserDAO.queryUser(friendShips.get(i).getCid());
                         via.setPassword("");
                         userArrayList.add(via);
                     }
-                    friendShips = FriendDAO.queryFriend("*",user.getUserid(),1);
+                    friendShips = FriendDAO.queryFriend("*",user.getUserId(),1);
                     for(int i=0;i<friendShips.size();i++){
                         User via = UserDAO.queryUser(friendShips.get(i).getUid());
                         via.setPassword("");
