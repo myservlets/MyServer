@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 
 
             //结果
-            int result = registUser(user.getNickname(),user.getPassword(),user.getUserid());
+            int result = registUser(user.getNickname(),user.getPassword(),user.getUserId());
 
             Map<String, Integer> params = new HashMap<>();
 

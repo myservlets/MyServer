@@ -38,7 +38,7 @@ public class UserDAO {
             if (resultSet.next()) {
                 user.setNickname(resultSet.getString("nickName"));
                 user.setPassword(resultSet.getString("password"));
-                user.setUserid(resultSet.getString("userId"));
+                user.setUserId(resultSet.getString("userId"));
                 return user;
             } else {
                 return null;
@@ -72,7 +72,7 @@ public class UserDAO {
             if (i==1) {
                 user.setNickname(userName);
                 user.setPassword(password);
-                user.setUserid(userId);
+                user.setUserId(userId);
                 return user;
             } else {
                 return null;
@@ -103,7 +103,7 @@ public class UserDAO {
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
             preparedStatement.setString(1, s);
-            preparedStatement.setString(2, user.getUserid());
+            preparedStatement.setString(2, user.getUserId());
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -2,7 +2,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import data_access_object.ReceiveInfoDAO;
-import data_access_object.UserDAO;
 import entity.ReceiveInfo;
 import entity.User;
 
@@ -41,7 +40,7 @@ public class ReceiveInfoListServlet extends HttpServlet {
             ArrayList<ReceiveInfo> receiveInfos = new ArrayList<ReceiveInfo>();
             ReceiveInfo receiveInfo = new ReceiveInfo();
             user=gson.fromJson(userStr,User.class);
-            receiveInfos = ReceiveInfoDAO.queryInfo(user.getUserid());
+            receiveInfos = ReceiveInfoDAO.queryInfo(user.getUserId());
 
             String s = "{'status':0,'ArrayList<ReceiveInfo>':"+gson.toJson(receiveInfos)+"}";
             out.write(s);

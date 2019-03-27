@@ -6,15 +6,6 @@ import conn_interface.ServletsConn;
 import entity.User;
 import org.junit.Test;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static org.junit.Assert.*;
-
 public class AddFriendServletTest {
 
     @Test
@@ -22,10 +13,10 @@ public class AddFriendServletTest {
         User user0 = new User();
         user0.setNickname("ZhangSan");
         user0.setPassword("123456");
-        user0.setUserid("z002");
+        user0.setUserId("z002");
         User user1 = new User();
         //user1.setNickname("hu1");
-        user1.setUserid("1");
+        user1.setUserId("1");
         handleAddFriend(addFriend(user1,user0));
 
     }

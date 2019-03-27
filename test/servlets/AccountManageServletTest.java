@@ -3,11 +3,8 @@ package servlets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import conn_interface.ServletsConn;
-import entity.ReceiveInfo;
 import entity.User;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class AccountManageServletTest {
 
@@ -17,7 +14,7 @@ public class AccountManageServletTest {
         User user1 = new User();
         user1.setNickname("hu2");
         user1.setPassword("123456");
-        user1.setUserid("2");
+        user1.setUserId("2");
         String s = "hu222";
         sign = 0;
         handleResult(doReceiveInfo(user1,s));
