@@ -18,7 +18,6 @@ import java.util.ArrayList;
  */
 public class SocketServer{
 
-    static ArrayList<Message> messages = new ArrayList<>();
     static ArrayList<ChatMSG> chatMSGS = new ArrayList<>();
     private static ArrayList<SocketThread> mThreadList = new ArrayList<>();
     public static void main(String[] args) {
@@ -70,17 +69,18 @@ public class SocketServer{
                 try {
 
                     while(true) {
-                        //if(messages.size() > 0) {
                         if(chatMSGS.size() > 0) {
-                            //Message from = messages.get(0);
                             ChatMSG from = chatMSGS.get(0);
+                            boolean flag = true;
                             for(SocketThread toThread : mThreadList) {
-                                //遍历mThreadList如果to.socketID==from.to说明这个toThread与mMsgList中的这条内容是对应的
-                                //这里toThread的作用是通过它得到这条消息的BufferedWriter，mMsgList.get(0)得到这条消息，然后通过
-                                //BufferedWriter将这条消息发送到指定方
                                 if(toThread.fromid.equals(from.getTargetid())) {
                                     //这里的writer是SocketThread中的writer,这样才能保证在调用writer.flush之后消息到达
                                     //我们的指定方
+                                    if(toThread.clientSocket.isClosed()){
+                                        flag = false;
+                                        mThreadList.remove(toThread);
+                                        break;
+                                    }
                                     BufferedWriter writer = toThread.mWriter;
                                     String json = new Gson().toJson(from);
                                     writer.write(json+"\n");
@@ -89,8 +89,7 @@ public class SocketServer{
                                     break;
                                 }
                             }
-                            //messages.remove(0);
-                            chatMSGS.remove(0);
+                            if(flag)chatMSGS.remove(0);
                         }
                         Thread.sleep(200);
                     }
@@ -123,23 +122,25 @@ public class SocketServer{
                         mReader = new BufferedReader( new InputStreamReader(clientSocket.getInputStream(),"utf-8"));
                         mWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(),"utf-8"));
                         //循环读取客户端发过来的消息
+                        int i= 0;
                         while (true) {
                             if (mReader.ready()) {
                                 String json=mReader.readLine();
                                 Gson gson = new Gson();
                                 ChatMSG msg = gson.fromJson(json,ChatMSG.class);
-                                //JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-                                //Message msg = new Message();
-                                //msg.setTo(Integer.parseInt(jsonObject.get("to").toString()));
-                                //msg.setMsg(jsonObject.get("msg").toString());
-                                //fromId = Integer.parseInt(jsonObject.get("from").toString());
-                                //msg.setFrom(fromId);
-                                //msg.setTime( System.currentTimeMillis());
-                                //messages.add(msg);
                                 fromid = msg.getFromid();
                                 chatMSGS.add(msg);
+                                if(i == 0){
+                                    for(int a = 0;a<mThreadList.size()-1;a++){
+                                        SocketThread socketThread = mThreadList.get(a);
+                                        if(fromid.equals(socketThread.fromid)){
+                                            mThreadList.remove(socketThread);
+                                            break;
+                                        }
+                                    }
+                                    i++;
+                                }
                                 System.out.println(json);
-                            //System.out.println("用户："+msg.getFrom()+"向用户："+msg.getTo()+"发送的消息内容为："+msg.getMsg());
                             }
                             Thread.sleep(100);
                         }

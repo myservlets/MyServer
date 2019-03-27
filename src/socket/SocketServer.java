@@ -2,7 +2,6 @@ package socket;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import net.sf.json.JSONObject;
 
 import java.io.*;
 import java.net.InetAddress;
