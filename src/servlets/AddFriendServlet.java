@@ -59,7 +59,7 @@ public class AddFriendServlet extends HttpServlet {
                         }
                         friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),1);
                         ArrayList<FriendShip> friendShips1 = FriendDAO.queryFriend(user1.getUserId(),user0.getUserId(),1);
-                        if((friendShips != null)||(friendShips1 != null)){
+                        if((!friendShips.isEmpty())||(!friendShips1.isEmpty())){
                             s = "{'status':3}";//该用户已在你的好友列表
                             break;
                         }
