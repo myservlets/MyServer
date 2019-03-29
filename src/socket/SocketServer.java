@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * 服务端 
+ * 服务端
  *
  */
 public class SocketServer{
@@ -22,12 +22,12 @@ public class SocketServer{
     }
 
     /**
-     * 启动服务监听，等待客户端连接 
+     * 启动服务监听，等待客户端连接
      */
 
     private static void startService() {
         try {
-            // 创建ServerSocket  
+            // 创建ServerSocket
             ServerSocket serverSocket = new ServerSocket(9999);
             System.out.println("--开启服务器，监听端口 9999--");
             InetAddress address = InetAddress.getLocalHost();
@@ -36,10 +36,10 @@ public class SocketServer{
             System.out.println("主机ip：" + address.getHostAddress());//获取IP地址
             System.out.println("===============");
 
-            // 监听端口，等待客户端连接  
+            // 监听端口，等待客户端连接
             while (true) {
                 System.out.println("--等待客户端连接--");
-                Socket socket = serverSocket.accept(); //等待客户端连接  
+                Socket socket = serverSocket.accept(); //等待客户端连接
                 System.out.println("得到客户端连接：" + socket);
 
                 SocketThread socketThread = new SocketThread(socket);
@@ -140,4 +140,4 @@ public class SocketServer{
             }.start();
         }
     }
-}  
+}
