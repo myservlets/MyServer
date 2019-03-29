@@ -1,28 +1,23 @@
 package entity;
 
 public class Goods {
-    private String goodsid;
-    private String goodsname;
+    private int goodsId;
+    private String goodsName;
     private double price;
-    private String userid;
+    private String userId;
     private int quantity;
-    private int j;
+    private int initNum;
+    private String picAddress1;
+    private String picAddress2;
+    private String picAddress3;
 
 
-    public String getGoodsid() {
-        return goodsid;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setGoodsid(String goodsid) {
-        this.goodsid = goodsid;
-    }
-
-    public String getGoodsname() {
-        return goodsname;
-    }
-
-    public void setGoodsname(String goodsname) {
-        this.goodsname = goodsname;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
     public double getPrice() {
@@ -33,12 +28,12 @@ public class Goods {
         this.price = price;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public int getQuantity() {
@@ -47,5 +42,45 @@ public class Goods {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getInitNum() {
+        return initNum;
+    }
+
+    public void setInitNum(int initNum) {
+        this.initNum = initNum;
+    }
+
+    public String getPicAddress1() {
+        return picAddress1;
+    }
+
+    public void setPicAddress1(String picAddress1) {
+        this.picAddress1 = picAddress1;
+    }
+
+    public String getPicAddress2() {
+        return picAddress2;
+    }
+
+    public void setPicAddress2(String picAddress2) {
+        this.picAddress2 = picAddress2;
+    }
+
+    public String getPicAddress3() {
+        return picAddress3;
+    }
+
+    public void setPicAddress3(String picAddress3) {
+        this.picAddress3 = picAddress3;
+    }
+
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
     }
 }

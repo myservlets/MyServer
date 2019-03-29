@@ -83,4 +83,22 @@
         <url-pattern>/AccountManage</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AddressCodeServlet</servlet-name>
+        <servlet-class>servlets.AddressCodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddressCodeServlet</servlet-name>
+        <url-pattern>/AddressCode</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HandleGoodsInfoServlet</servlet-name>
+        <servlet-class>servlets.HandleGoodsInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HandleGoodsInfoServlet</servlet-name>
+        <url-pattern>/HandleGoodsInfo</url-pattern>
+    </servlet-mapping>
+
 </web-app>

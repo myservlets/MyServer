@@ -3,9 +3,10 @@ package entity;
 import java.util.ArrayList;
 
 public class City {
-    private ArrayList<County> counties;
     private String name;
     private String id;
+    private ArrayList<County> counties;
+
 
     public ArrayList<County> getCounties() {
         return counties;
