@@ -11,6 +11,8 @@ public class ReceiveInfo {
 
     private String address;
 
+    private int rId;
+
     public void setAddress(String address) { this.address = address; }
 
     public String getAddress() { return address; }
@@ -22,4 +24,12 @@ public class ReceiveInfo {
     public void setPhone(String phone) {this.phone = phone;}
 
     public String getPhone() {return phone;}
+
+    public int getrId() {
+        return rId;
+    }
+
+    public void setrId(int rId) {
+        this.rId = rId;
+    }
 }

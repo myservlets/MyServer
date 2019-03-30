@@ -40,6 +40,7 @@ public class ReceiveInfoDAO {
                 receiveInfo.setUserId(resultSet.getString("userId"));
                 receiveInfo.setPhone(resultSet.getString("phone"));
                 receiveInfo.setAddress(resultSet.getString("address"));
+                receiveInfo.setrId(resultSet.getInt("rId"));
                 receiveInfos.add(receiveInfo);
             }
             return receiveInfos;
@@ -58,7 +59,7 @@ public class ReceiveInfoDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("INSERT INTO receiveInfo VALUES(?,?,?)");
+        sqlStatement.append("INSERT INTO receiveInfo (userId, phone, address) VALUES(?,?,?);");
 
         //设置数据库的字段值
         try {
@@ -76,21 +77,19 @@ public class ReceiveInfoDAO {
             DBManager.closeAll(connection, preparedStatement,null);
         }
     }
-    public static int deleteReceiveInfo(String userId, String phone, String address) {
+    public static int deleteReceiveInfo(ReceiveInfo receiveInfo) {
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();
         PreparedStatement preparedStatement = null;
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("DELETE from receiveInfo where userid = ? and phone = ? and address = ?");
+        sqlStatement.append("DELETE from receiveInfo where rId = ?");
 
         //设置数据库的字段值
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
-            preparedStatement.setString(1, userId);
-            preparedStatement.setString(2, phone);
-            preparedStatement.setString(3, address);
+            preparedStatement.setInt(1, receiveInfo.getrId());
 
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -115,7 +114,7 @@ public class ReceiveInfoDAO {
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
         sqlStatement.append("UPDATE receiveInfo set userid = ?,phone = ?,address = ? where " +
-                "userid = ? and phone = ? and address = ?");
+                "rId = ?");
 
         //设置数据库的字段值
         try {
@@ -123,9 +122,7 @@ public class ReceiveInfoDAO {
             preparedStatement.setString(1, receiveInfo2.getUserId());
             preparedStatement.setString(2, receiveInfo2.getPhone());
             preparedStatement.setString(3, receiveInfo2.getAddress());
-            preparedStatement.setString(4, receiveInfo1.getUserId());
-            preparedStatement.setString(5, receiveInfo1.getPhone());
-            preparedStatement.setString(6, receiveInfo1.getAddress());
+            preparedStatement.setInt(4, receiveInfo1.getrId());
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReceiveInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
