@@ -2,6 +2,7 @@ package data_access_object;
 
 import db_connecter.DBManager;
 import entity.Goods;
+import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,30 @@ public class GoodsDAO {
         } catch (SQLException ex) {
             Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+    public static int deleteGoods(int goodsId) {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("DELETE FROM goods WHERE goodsId=?");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setInt(1, goodsId);
+
+            int i = preparedStatement.executeUpdate();
+            return i;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
         } finally {
             DBManager.closeAll(connection, preparedStatement, resultSet);
         }

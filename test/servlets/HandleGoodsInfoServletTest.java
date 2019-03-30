@@ -35,6 +35,7 @@ public class HandleGoodsInfoServletTest {
         goods.setPrice(18.2);
         goods.setGoodsId(1);
         handle(update(goods));//修改
+        //handle(delete(goods.getGoodsId()));//删除
     }
 
     private void handle(String json) {
@@ -65,7 +66,13 @@ public class HandleGoodsInfoServletTest {
                 break;
             case 5:
                 System.out.println("修改失败");
-
+                break;
+            case 6:
+                System.out.println("删除成功");
+                break;
+            case 7:
+                System.out.println("删除失败");
+                break;
         }
     }
 
@@ -85,6 +92,12 @@ public class HandleGoodsInfoServletTest {
         Gson gson = new Gson();
         sign = 2;//修改商品
         String json = "{'sign':"+ sign +",'Goods':"+gson.toJson(goods)+"}";
+        return ServletsConn.connServlets("HandleGoodsInfo",json);
+    }
+    private String delete (int goodsId){
+        Gson gson = new Gson();
+        sign = 3;//删除
+        String json = "{'sign':"+ sign +",'goodsId':"+ goodsId +"}";
         return ServletsConn.connServlets("HandleGoodsInfo",json);
     }
 }

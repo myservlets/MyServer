@@ -60,6 +60,7 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                         result = 3;
                     retJson = "{'status':"+ result +",'ArrayList<Goods>':"+gson.toJson(goodsArrayList)+"}";
                     out.write(retJson);
+                    break;
                 case 2://修改商品信息
                     result = 4;
                     if (GoodsDAO.updateGoods(goods)==0)
@@ -68,6 +69,17 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                     params.put("status",result);
                     retJson = gson.toJson(params);
                     out.write(retJson);
+                    break;
+                case 3://删除商品
+                    result=6;
+                    int goodsId = Integer.parseInt(jsonObject.get("goodsId").toString());
+                    if(GoodsDAO.deleteGoods(goodsId)==0)
+                        result = 7;
+                    params = new HashMap<>();
+                    params.put("status",result);
+                    retJson = gson.toJson(params);
+                    out.write(retJson);
+                    break;
                     default:
                         break;
             }
