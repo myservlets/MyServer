@@ -18,7 +18,7 @@ public class SearchServletTest {
     private int sign; // 0/检索用户 1/检索商品
     @Test
     public void doPost() {
-        String s = "u";
+        String s = "hhhhhhhh";
         handle(search(s));
     }
 

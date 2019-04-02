@@ -44,13 +44,13 @@ public class SearchServlet extends HttpServlet {
             int flag = Integer.parseInt(jsonObject.get("sign").toString());
             String keyword = jsonObject.get("keyword").getAsString();
             switch (flag){
-                case 0:
+                    case 0:
                     ArrayList<User> users = new ArrayList<>();
                     users = UserDAO.fuzzySearchUser(keyword);
                     String retJson = gson.toJson(users);
                     out.write(retJson);
                     break;
-                case 1:
+                    case 1:
                     ArrayList<Goods> goodsArrayList = new ArrayList<>();
                     goodsArrayList = GoodsDAO.fuzzySearchGoods(keyword);
                     retJson = gson.toJson(goodsArrayList);

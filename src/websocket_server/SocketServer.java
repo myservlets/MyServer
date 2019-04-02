@@ -2,9 +2,7 @@ package websocket_server;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import entity.ChatMSG;
-import entity.Message;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -18,7 +16,7 @@ import java.util.ArrayList;
  */
 public class SocketServer{
 
-    static ArrayList<ChatMSG> chatMSGS = new ArrayList<>();
+    public static ArrayList<ChatMSG> chatMSGS = new ArrayList<>();
     private static ArrayList<SocketThread> mThreadList = new ArrayList<>();
     public static void main(String[] args) {
         startService();
@@ -27,7 +25,7 @@ public class SocketServer{
     /**
      * 启动服务监听，等待客户端连接
      */
-    private static void startService() {
+    public static void startService() {
         try {
             // 创建ServerSocket
             ServerSocket serverSocket = new ServerSocket(9999);

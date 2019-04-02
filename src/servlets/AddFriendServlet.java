@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import data_access_object.FriendDAO;
 import data_access_object.UserDAO;
+import entity.ChatMSG;
 import entity.FriendShip;
 import entity.User;
+import websocket_server.SocketServer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet(name = "AddFriendServlet")
 public class AddFriendServlet extends HttpServlet {
@@ -55,6 +58,15 @@ public class AddFriendServlet extends HttpServlet {
                         ArrayList<FriendShip> friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),0);
                         if((friendShips != null)&& !friendShips.isEmpty()){
                             s = "{'status':0}";//已发送好友请求
+                            SocketServer.startService();
+                            ChatMSG chatMSG = new ChatMSG();
+                            chatMSG.setFromid(user0.getUserId());
+                            chatMSG.setTargetid(user1.getUserId());
+                            Date date = new Date();
+                            date.getTime() ;
+                            chatMSG.setDate(date);
+                            chatMSG.setContent("add_friend_request_signal");
+                            SocketServer.chatMSGS.add(chatMSG);
                             break;
                         }
                         friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),1);
