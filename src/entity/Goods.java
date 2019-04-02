@@ -2,7 +2,6 @@ package entity;
 
 public class Goods {
     private int goodsId;
-    private String goodsName;
     private double price;
     private String userId;
     private int quantity;
@@ -10,6 +9,10 @@ public class Goods {
     private String picAddress1;
     private String picAddress2;
     private String picAddress3;
+    private String content; //商品简介
+    private String type;  //商品的种类
+    private String goodsName;
+
 
 
     public String getGoodsName() {
@@ -82,5 +85,21 @@ public class Goods {
 
     public void setGoodsId(int goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

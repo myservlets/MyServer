@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +44,41 @@ public class UserDAO {
             } else {
                 return null;
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+
+    public static ArrayList<User> fuzzySearchUser(String keyword){
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<User> users = new ArrayList<>();
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("SELECT * FROM users WHERE LOCATE(?, concat(nickname,userId))>0");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setString(1, keyword);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setNickname(resultSet.getString("nickName"));
+                user.setPassword(resultSet.getString("password"));
+                user.setUserId(resultSet.getString("userId"));
+                user.setIcon(resultSet.getString("icon"));
+                users.add(user);
+            }
+            return users;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;

@@ -46,6 +46,8 @@ public class GoodsDAO {
                 goods.setPicAddress2(resultSet.getString("picAddress2"));
                 goods.setPicAddress3(resultSet.getString("picAddress3"));
                 goods.setGoodsId(resultSet.getInt("goodsId"));
+                goods.setContent(resultSet.getString("content"));
+                goods.setType(resultSet.getString("type"));
                 goodsArrayList.add(goods);
             }
             return goodsArrayList;
@@ -56,6 +58,48 @@ public class GoodsDAO {
             DBManager.closeAll(connection, preparedStatement, resultSet);
         }
     }
+
+    public static ArrayList<Goods> fuzzySearchGoods(String keyword) {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<Goods> goodsArrayList = new ArrayList<>();
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("SELECT * FROM goods WHERE LOCATE(?, concat(content,type,goodsName))>0");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setString(1, keyword);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Goods goods = new Goods();
+                goods.setPrice(resultSet.getDouble("price"));
+                goods.setGoodsName(resultSet.getString("goodsName"));
+                goods.setQuantity(resultSet.getInt("quantity"));
+                goods.setUserId(resultSet.getString("userId"));
+                goods.setPicAddress1(resultSet.getString("picAddress1"));
+                goods.setPicAddress2(resultSet.getString("picAddress2"));
+                goods.setPicAddress3(resultSet.getString("picAddress3"));
+                goods.setGoodsId(resultSet.getInt("goodsId"));
+                goods.setContent(resultSet.getString("content"));
+                goods.setType(resultSet.getString("type"));
+                goodsArrayList.add(goods);
+            }
+            return goodsArrayList;
+        } catch (SQLException ex) {
+            Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+
     public static int deleteGoods(int goodsId) {
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();
@@ -70,7 +114,6 @@ public class GoodsDAO {
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
             preparedStatement.setInt(1, goodsId);
-
             int i = preparedStatement.executeUpdate();
             return i;
         } catch (SQLException ex) {
@@ -89,7 +132,7 @@ public class GoodsDAO {
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
         sqlStatement.append("INSERT INTO goods (initNum,quantity,userId,goodsName,price," +
-                "picAddress1,picAddress2,picAddress3) VALUES (?,?,?,?,?,?,?,?)");
+                "picAddress1,picAddress2,picAddress3,content,type) VALUES (?,?,?,?,?,?,?,?,?,?)");
 
         //设置数据库的字段值
         try {
@@ -102,6 +145,8 @@ public class GoodsDAO {
             preparedStatement.setString(6, goods.getPicAddress1());
             preparedStatement.setString(7, goods.getPicAddress2());
             preparedStatement.setString(8, goods.getPicAddress3());
+            preparedStatement.setString(9, goods.getContent());
+            preparedStatement.setString(10, goods.getType());
 
             int i = preparedStatement.executeUpdate();
             if (i==1) {
@@ -132,6 +177,8 @@ public class GoodsDAO {
                 "',picAddress1 = "+goods.getPicAddress1()+
                 ",picAddress2 = "+goods.getPicAddress2()+
                 ",picAddress3 = "+goods.getPicAddress3()+
+                ",content = "+goods.getContent()+
+                ",type = "+goods.getType()+
                 " where goodsId = ?");
         //设置数据库的字段值
         try {
