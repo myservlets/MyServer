@@ -25,8 +25,6 @@ public class ReceivingInfoServlet extends HttpServlet {
             throws ServletException, IOException {
         Gson gson=new Gson();
         System.out.println("ReceiveInfo:");
-        User user = new User();
-        ReceiveInfo receiveInfo = new ReceiveInfo();
 
         // 设置响应内容类型
         response.setContentType("text/html;charset=utf-8");
@@ -34,48 +32,72 @@ public class ReceivingInfoServlet extends HttpServlet {
         response.setCharacterEncoding("utf-8");
 
         try (PrintWriter out = response.getWriter()) {
-
             //获得请求中传来的sign和ReceiveInfo对象
             BufferedReader reader = request.getReader();
             String infoStr = reader.readLine();
-            System.out.println(infoStr);
-            int result = handleSign(infoStr);
             reader.close();
+            System.out.println(infoStr);
+            int flag=0;//用于标识的信号量
+            int status = 0;;
             Map<String, Integer> params = new HashMap<>();
-            params.put("result",result);
-
-            String s = gson.toJson(params);
-            out.write(s);
+            if(infoStr != null){
+                JsonObject jsonObject=gson.fromJson(infoStr,JsonObject.class);
+                flag=Integer.parseInt(jsonObject.get("sign").toString());// 0/添加 1/删除 2/编辑收货信息 3/查询收货信息列表 ;
+                switch (flag){
+                    case 0:
+                        System.out.println("请求添加收货信息");
+                        ReceiveInfo receiveInfo=gson.fromJson(jsonObject.get("ReceiveInfo").toString(),ReceiveInfo.class);
+                        if(ReceiveInfoDAO.insertReceiveInfo(receiveInfo.getUserId(),receiveInfo.getPhone(),receiveInfo.getAddress())==0)
+                            status = 1;
+                        params = new HashMap<>();
+                        params.put("status",status);
+                        String retStr = gson.toJson(params);
+                        out.write(retStr);
+                        break;
+                    case 1:
+                        status = 2;
+                        System.out.println("请求删除收货信息");
+                        receiveInfo=gson.fromJson(jsonObject.get("ReceiveInfo").toString(),ReceiveInfo.class);
+                        if(ReceiveInfoDAO.deleteReceiveInfo(receiveInfo)==0)
+                            status = 3;
+                        params = new HashMap<>();
+                        params.put("status",status);
+                        retStr = gson.toJson(params);
+                        out.write(retStr);
+                        break;
+                    case 2:
+                        status = 4;
+                        System.out.println("请求编辑收货信息");
+                        receiveInfo=gson.fromJson(jsonObject.get("ReceiveInfo").toString(),ReceiveInfo.class);
+                        String s = jsonObject.get("ReceiveInfo2").toString();
+                        ReceiveInfo receiveInfo2 = gson.fromJson(s,ReceiveInfo.class);
+                        int result = ReceiveInfoDAO.editReceiveInfo(receiveInfo,receiveInfo2);
+                        if(result == 0)
+                            status = 5;
+                        params = new HashMap<>();
+                        params.put("status",status);
+                        retStr = gson.toJson(params);
+                        out.write(retStr);
+                        break;
+                    case 3:
+                        status = 6;
+                        System.out.println("请求查询收货信息列表");
+                        User user = new User();
+                        ArrayList<ReceiveInfo> receiveInfos = new ArrayList<ReceiveInfo>();
+                        user=gson.fromJson(jsonObject.get("User").toString(),User.class);
+                        receiveInfos = ReceiveInfoDAO.queryInfo(user.getUserId());
+                        retStr = "{'status':"+status+",'ArrayList<ReceiveInfo>':"+gson.toJson(receiveInfos)+"}";
+                        out.write(retStr);
+                        break;
+                }
+            }
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
-
-    public static int handleSign(String json) {
-        int flag=0;//用于标识的信号量
-        if(json != null){
-            Gson gson=new Gson();
-            JsonObject jsonObject=gson.fromJson(json,JsonObject.class);
-            flag=Integer.parseInt(jsonObject.get("sign").toString());
-            ReceiveInfo receiveInfo=gson.fromJson(jsonObject.get("ReceiveInfo").toString(),ReceiveInfo.class);
-            if(flag==0){
-                System.out.println("请求添加收货信息");
-                return ReceiveInfoDAO.insertReceiveInfo(receiveInfo.getUserId(),receiveInfo.getPhone(),receiveInfo.getAddress());
-            }
-            else if(flag==1){
-                System.out.println("请求删除收货信息");
-                return ReceiveInfoDAO.deleteReceiveInfo(receiveInfo.getUserId(),receiveInfo.getPhone(),receiveInfo.getAddress());
-            }
-        }
-        return 0;
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doPost(request, response);
     }
-
 }

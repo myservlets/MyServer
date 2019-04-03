@@ -73,9 +73,9 @@ public class AddressCodeServlet extends HttpServlet {
                     city.setName(resultSet.getString("name"));
                     city.setId(resultSet.getString("id"));
                     cities.add(city);
-                    provinces.get(i).setCities(cities);
                 }
-                cities.clear();
+                provinces.get(i).setCities(cities);
+                cities = new ArrayList<>();
             }
             for (int i = 0;i<provinces.size();i++) {
                 cities = provinces.get(i).getCities();
@@ -90,7 +90,7 @@ public class AddressCodeServlet extends HttpServlet {
                         counties.add(county);
                     }
                     cities.get(j).setCounties(counties);
-                    counties.clear();
+                    counties = new ArrayList<>();
                 }
             }
         } catch (SQLException ex) {
