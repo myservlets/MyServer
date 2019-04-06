@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,8 @@ public class SocketServer{
     public static void main(String[] args) {
         startService();
     }
-
+    private static Socket socket= null;
+    private static SocketThread currentThread = null;
     /**
      * 启动服务监听，等待客户端连接
      */
@@ -39,7 +41,7 @@ public class SocketServer{
             // 监听端口，等待客户端连接
             while (true) {
                 System.out.println("--等待客户端连接--");
-                Socket socket = serverSocket.accept(); //等待客户端连接
+                socket = serverSocket.accept(); //等待客户端连接
                 System.out.println("得到客户端连接：" + socket);
 
                 SocketThread socketThread = new SocketThread(socket);
@@ -62,23 +64,24 @@ public class SocketServer{
         new Thread() {
             @Override
             public void run() {
-
-
+                ChatMSG from = null;
+                boolean whileflag = true;
                 try {
 
-                    while(true) {
+                    while(whileflag) {
                         if(chatMSGS.size() > 0) {
-                            ChatMSG from = chatMSGS.get(0);
-                            boolean flag = true;
+                            from = chatMSGS.get(0);
+                            boolean flag = false;
                             for(SocketThread toThread : mThreadList) {
                                 if(toThread.fromid.equals(from.getTargetid())) {
                                     //这里的writer是SocketThread中的writer,这样才能保证在调用writer.flush之后消息到达
                                     //我们的指定方
+                                    currentThread = toThread;
                                     if(toThread.clientSocket.isClosed()){
-                                        flag = false;
                                         mThreadList.remove(toThread);
                                         break;
                                     }
+                                    flag =true;
                                     BufferedWriter writer = toThread.mWriter;
                                     String json = new Gson().toJson(from);
                                     writer.write(json+"\n");
@@ -87,12 +90,20 @@ public class SocketServer{
                                     break;
                                 }
                             }
-                            if(flag)chatMSGS.remove(0);
+                            chatMSGS.remove(from);
+                            if(!flag)chatMSGS.add(from);
                         }
                         Thread.sleep(200);
                     }
 
-                } catch (IOException e) {
+                } catch (SocketException e){
+                    mThreadList.remove(currentThread);
+                    chatMSGS.remove(from);
+                    chatMSGS.add(from);
+                    whileflag = false;
+                    sendMsg(socket);
+                    this.stop();
+                }catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

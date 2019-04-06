@@ -58,15 +58,15 @@ public class AddFriendServlet extends HttpServlet {
                         ArrayList<FriendShip> friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),0);
                         if((friendShips != null)&& !friendShips.isEmpty()){
                             s = "{'status':0}";//已发送好友请求
-                            SocketServer.startService();
+                            //SocketServer.startService();
                             ChatMSG chatMSG = new ChatMSG();
                             chatMSG.setFromid(user0.getUserId());
                             chatMSG.setTargetid(user1.getUserId());
                             Date date = new Date();
                             date.getTime() ;
-                            chatMSG.setDate(date);
-                            chatMSG.setContent("add_friend_request_signal");
-                            SocketServer.chatMSGS.add(chatMSG);
+                            //chatMSG.setDate(date);
+                            //chatMSG.setContent("add_friend_request_signal");
+                            //SocketServer.chatMSGS.add(chatMSG);
                             break;
                         }
                         friendShips = FriendDAO.queryFriend(user0.getUserId(),user1.getUserId(),1);

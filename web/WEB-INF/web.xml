@@ -74,23 +74,8 @@
         <url-pattern>/ReceiveInfo</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>ReceiveInfoServletList</servlet-name>
-        <servlet-class>servlets.ReceiveInfoListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReceiveInfoServletList</servlet-name>
-        <url-pattern>/ReceiveInfoList</url-pattern>
-    </servlet-mapping>
 
-    <servlet>
-        <servlet-name>EditReceivingInfoServlet</servlet-name>
-        <servlet-class>servlets.EditReceivingInfoServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditReceivingInfoServlet</servlet-name>
-        <url-pattern>/EditReceivingInfo</url-pattern>
-    </servlet-mapping>
+
 
     <servlet>
         <servlet-name>AccountManageServlet</servlet-name>
