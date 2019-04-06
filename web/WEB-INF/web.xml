@@ -128,4 +128,14 @@
         <url-pattern>/Order</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ImageHandlerServlet</servlet-name>
+        <servlet-class>servlets.ImageHandlerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImageHandlerServlet</servlet-name>
+        <url-pattern>/imagehandler</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>
