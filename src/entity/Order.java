@@ -6,9 +6,10 @@ public class Order {
     private int orderId;
     private int goodsId;
     private String userId;
-    private int status;
+    private int status;// 0/购物车 1/待付款 2/待发货 3/待收货 4/待评论 5/售后
     private int count;
     private Double cost;
+    private Goods goods;
     private Date date;
     private String remark;
 
@@ -74,5 +75,13 @@ public class Order {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
     }
 }

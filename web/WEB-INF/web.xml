@@ -110,4 +110,22 @@
         <url-pattern>/Search</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>MyServlet</servlet-name>
+        <servlet-class>servlets.MyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyServlet</servlet-name>
+        <url-pattern>/myServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>servlets.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/Order</url-pattern>
+    </servlet-mapping>
+
 </web-app>
