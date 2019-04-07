@@ -21,15 +21,17 @@ public class OrderServletTest {
         Order order = new Order();
         order.setUserId("1");
         order.setStatus(1);
-        order.setRemark("");
+        order.setRemark(null);
         order.setGoodsId(1);
         //order.setDate();
         order.setCount(3);
         order.setCost(26.2);
-        //handle(publish(goods));//发布
-        String userId = "2";
-        //handle(query(userId));//查询
-        //handle(delete(goods.getGoodsId()));//删除
+        handle(addOrder(order));//添加订单
+        //handle(query("1",1));//查询
+        order.setStatus(2);
+        order.setOrderId(3);
+        handle(update(order));//修改
+        handle(delete(order));//删除
     }
 
     private void handle(String json) {

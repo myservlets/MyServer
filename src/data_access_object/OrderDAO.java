@@ -25,7 +25,7 @@ public class OrderDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("SELECT * FROM order WHERE userId=? and status=?");
+        sqlStatement.append("SELECT * FROM `myapp_schema`.`order` WHERE userId=? and status=?");
 
         //设置数据库的字段值
         try {
@@ -39,12 +39,13 @@ public class OrderDAO {
                 Order order = new Order();
                 order.setCost(resultSet.getDouble("cost"));
                 order.setCount(resultSet.getInt("count"));
-                order.setDate(resultSet.getDate("data"));
+                order.setDate(resultSet.getDate("date"));
                 order.setGoodsId(resultSet.getInt("goodsId"));
                 order.setGoods(GoodsDAO.queryGoods(order.getGoodsId()));
                 order.setRemark(resultSet.getString("remark"));
                 order.setStatus(resultSet.getInt("status"));
                 order.setUserId(resultSet.getString("userId"));
+                order.setOrderId(resultSet.getInt("orderId"));
                 orders.add(order);
             }
             return orders;
@@ -63,8 +64,8 @@ public class OrderDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("INSERT INTO order (userId,status,count,cost,date," +
-                "remark,goodsId) VALUES (?,?,?,?,?,?,?)");
+        sqlStatement.append("INSERT INTO `myapp_schema`.`order` (`userId`, `status`, `count`, `cost`, " +
+                "`date`, `remark`, `goodsId`) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
         //设置数据库的字段值
         try {
@@ -98,7 +99,7 @@ public class OrderDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("DELETE FROM order WHERE orderId=?");
+        sqlStatement.append("DELETE FROM myapp_schema.order WHERE orderId=?");
         //设置数据库的字段值
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
@@ -119,12 +120,12 @@ public class OrderDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("UPDATE order set status = "+ order.getStatus() +
+        sqlStatement.append("UPDATE `myapp_schema`.`order` set status = "+ order.getStatus() +
                 ",count = "+order.getCount()+
                 ",cost = "+order.getCost()+
                 ",remark = "+order.getRemark()+
-                ",goodsId = '"+order.getGoodsId()+
-                " where orderId = ?");
+                ",goodsId = "+order.getGoodsId()+
+                " where orderId =?");
         //设置数据库的字段值
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
