@@ -62,8 +62,6 @@ public class SocketServer{
         new Thread() {
             @Override
             public void run() {
-
-
                 try {
 
                     while(true) {

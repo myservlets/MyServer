@@ -62,6 +62,49 @@ public class GoodsDAO {
     /**
      * 查询给定用户名的用户的详细信息
      *
+     * @return 查询到该用户发布的所有商品
+     */
+    public static ArrayList<Goods> queryGoodsList() {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("SELECT * FROM goods");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+
+            resultSet = preparedStatement.executeQuery();
+            ArrayList<Goods> goodsArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+                Goods goods = new Goods();
+                goods.setPrice(resultSet.getDouble("price"));
+                goods.setGoodsName(resultSet.getString("goodsName"));
+                goods.setQuantity(resultSet.getInt("quantity"));
+                goods.setUserId(resultSet.getString("userId"));
+                goods.setPicAddress1(resultSet.getString("picAddress1"));
+                goods.setPicAddress2(resultSet.getString("picAddress2"));
+                goods.setPicAddress3(resultSet.getString("picAddress3"));
+                goods.setGoodsId(resultSet.getInt("goodsId"));
+                goods.setContent(resultSet.getString("content"));
+                goods.setType(resultSet.getString("type"));
+                goodsArrayList.add(goods);
+            }
+            return goodsArrayList;
+        } catch (SQLException ex) {
+            Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+    /**
+     * 查询给定用户名的用户的详细信息
+     *
      * @param userId 给定的用户ID
      * @return 查询到该用户发布的所有商品
      */

@@ -77,6 +77,14 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                     params.put("status",result);
                     retJson = gson.toJson(params);
                     out.write(retJson);
+                case 4://查询所有已发布商品
+                    result = 8;
+                    goodsArrayList = new ArrayList<>();
+                    goodsArrayList = GoodsDAO.queryGoodsList();
+                    if(goodsArrayList == null)
+                        result = 9;
+                    retJson = "{'status':"+ result +",'ArrayList<Goods>':"+gson.toJson(goodsArrayList)+"}";
+                    out.write(retJson);
                     break;
                     default:
                         break;

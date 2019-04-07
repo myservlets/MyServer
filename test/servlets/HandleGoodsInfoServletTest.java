@@ -17,7 +17,7 @@ import java.util.Map;
 public class HandleGoodsInfoServletTest {
 
 
-    private int sign = 0;// 0/发布商品 1/查看已发布的商品信息 2/修改商品信息 3//删除
+    private int sign = 0;// 0/发布商品 1/查看已发布的商品信息 2/修改商品信息 3//删除 4/查询所有已发布商品
     @Test
     public void doPost() {
         Goods goods = new Goods();
@@ -34,8 +34,9 @@ public class HandleGoodsInfoServletTest {
         //handle(query(userId));//查询
         goods.setPrice(18.2);
         goods.setGoodsId(1);
-        handle(update(goods));//修改
+        //handle(update(goods));//修改
         //handle(delete(goods.getGoodsId()));//删除
+        handle(queryAll());
     }
 
     private void handle(String json) {
@@ -72,6 +73,15 @@ public class HandleGoodsInfoServletTest {
                 break;
             case 7:
                 System.out.println("删除失败");
+            case 8:
+                System.out.println("查询成功");
+                goodsArrayList = new ArrayList<>();
+                listType = new TypeToken<ArrayList<Goods>>() {}.getType();
+                goodsArrayList = gson.fromJson(jsonObject.get("ArrayList<Goods>").toString(),listType);
+                System.out.println(goodsArrayList);
+                break;
+            case 9:
+                System.out.println("查询失败");
                 break;
         }
     }
@@ -86,6 +96,12 @@ public class HandleGoodsInfoServletTest {
         Gson gson = new Gson();
         sign = 1;//查询商品
         String json = "{'sign':"+ sign +",'userId':"+userId+"}";
+        return ServletsConn.connServlets("HandleGoodsInfo",json);
+    }
+    private String queryAll() {
+        Gson gson = new Gson();
+        sign = 4;//查询所有已发布商品
+        String json = "{'sign':"+ sign +"}";
         return ServletsConn.connServlets("HandleGoodsInfo",json);
     }
     private String update(Goods goods) {
