@@ -122,9 +122,11 @@ public class SocketServer{
         private String fromid;
         private BufferedReader mReader;
         private BufferedWriter mWriter;
-
+        private SocketThread myself;
+        private boolean flag = true;
         SocketThread(Socket clientSocket){
             this.clientSocket = clientSocket;
+            myself = this;
         }
 
         //心跳包
@@ -136,14 +138,17 @@ public class SocketServer{
                     {
                         int index = 1;
                         while (true) {
-                           socket.sendUrgentData(0xFF);//发送心跳包
+                           socket.sendUrgentData(32);//发送心跳包
                             System.out.println("目标处于链接状态！");
                             Thread.sleep(3*1000);
                         }
                     } catch (IOException e) {
                         try {
                             socket.close();
+                            mThreadList.remove(myself);
+                            flag = false;
                             System.out.println("服务器关闭连接！");
+
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
@@ -164,7 +169,7 @@ public class SocketServer{
                         mWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(),"utf-8"));
                         //循环读取客户端发过来的消息
                         int i= 0;
-                        while (true) {
+                        while (flag) {
                             if (mReader.ready()) {
                                 String json=mReader.readLine();
                                 Gson gson = new Gson();
