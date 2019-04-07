@@ -48,6 +48,7 @@ public class SocketServer{
 
                 SocketThread socketThread = new SocketThread(socket);
                 socketThread.start();
+                socketThread.checkConn();
                 mThreadList.add(socketThread);
             }
 
@@ -126,6 +127,32 @@ public class SocketServer{
             this.clientSocket = clientSocket;
         }
 
+        //心跳包
+        private void checkConn(){
+            new Thread() {
+                @Override
+                public void run(){
+                    try
+                    {
+                        int index = 1;
+                        while (true) {
+                           socket.sendUrgentData(0xFF);//发送心跳包
+                            System.out.println("目标处于链接状态！");
+                            Thread.sleep(3*1000);
+                        }
+                    } catch (IOException e) {
+                        try {
+                            socket.close();
+                            System.out.println("服务器关闭连接！");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
         public void start() throws InterruptedException {
             new Thread(){
                 @Override
