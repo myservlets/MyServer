@@ -13,13 +13,59 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GoodsDAO {
+
+    /**
+     * 查询给定用户名的用户的详细信息
+     *
+     * @param goodsId 给定的用户ID
+     * @return 查询到的封装了详细信息的Goods对象
+     */
+    public static Goods queryGoods(int goodsId) {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("SELECT * FROM goods WHERE goodsId=?");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setInt(1, goodsId);
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Goods goods = new Goods();
+                goods.setPrice(resultSet.getDouble("price"));
+                goods.setGoodsName(resultSet.getString("goodsName"));
+                goods.setQuantity(resultSet.getInt("quantity"));
+                goods.setUserId(resultSet.getString("userId"));
+                goods.setPicAddress1(resultSet.getString("picAddress1"));
+                goods.setPicAddress2(resultSet.getString("picAddress2"));
+                goods.setPicAddress3(resultSet.getString("picAddress3"));
+                goods.setGoodsId(resultSet.getInt("goodsId"));
+                goods.setContent(resultSet.getString("content"));
+                goods.setType(resultSet.getString("type"));
+                return goods;
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
     /**
      * 查询给定用户名的用户的详细信息
      *
      * @param userId 给定的用户ID
      * @return 查询到该用户发布的所有商品
      */
-    public static ArrayList<Goods> queryGoods(String userId) {
+    public static ArrayList<Goods> queryGoodsList(String userId) {
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();
         PreparedStatement preparedStatement = null;

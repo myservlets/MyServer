@@ -16,7 +16,7 @@ public class AddFriendServletTest {
         user0.setUserId("z002");
         User user1 = new User();
         //user1.setNickname("hu1");
-        user1.setUserId("1");
+        user1.setUserId("456");
         handleAddFriend(addFriend(user1,user0));
 
     }
@@ -54,7 +54,7 @@ public class AddFriendServletTest {
 
     private String addFriend(User user0, User user1) {
         Gson gson = new Gson();
-        String json = "{'sign':2,'User0':"+gson.toJson(user0)+",'User1':"+gson.toJson(user1)+"}";
+        String json = "{'sign':0,'User0':"+gson.toJson(user0)+",'User1':"+gson.toJson(user1)+"}";
         return ServletsConn.connServlets("addfriend",json);
     }
 }

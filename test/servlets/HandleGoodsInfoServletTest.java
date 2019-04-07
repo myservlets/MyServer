@@ -17,7 +17,7 @@ import java.util.Map;
 public class HandleGoodsInfoServletTest {
 
 
-    private int sign = 0;// 0/发布商品 1/查看已发布的商品信息 2/修改商品信息
+    private int sign = 0;// 0/发布商品 1/查看已发布的商品信息 2/修改商品信息 3//删除
     @Test
     public void doPost() {
         Goods goods = new Goods();

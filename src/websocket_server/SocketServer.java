@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 服务端
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  */
 public class SocketServer{
 
-    public static ArrayList<ChatMSG> chatMSGS = new ArrayList<>();
+    public static CopyOnWriteArrayList<ChatMSG> chatMSGS = new CopyOnWriteArrayList<>();
     private static ArrayList<SocketThread> mThreadList = new ArrayList<>();
     public static void main(String[] args) {
         startService();
@@ -37,7 +38,7 @@ public class SocketServer{
             //System.out.println(address.getCanonicalHostName());//主机别名
             System.out.println("IP地址："+address.getHostAddress());//获取IP地址
             System.out.println("===============");
-
+            sendMsg();
             // 监听端口，等待客户端连接
             while (true) {
                 System.out.println("--等待客户端连接--");
@@ -47,7 +48,6 @@ public class SocketServer{
                 SocketThread socketThread = new SocketThread(socket);
                 socketThread.start();
                 mThreadList.add(socketThread);
-                sendMsg(socket);
             }
 
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class SocketServer{
     /**
      * 发送消息
      */
-    private static void sendMsg(final Socket socket) {
+    private static void sendMsg() {
         new Thread() {
             @Override
             public void run() {
@@ -71,8 +71,12 @@ public class SocketServer{
                     while(whileflag) {
                         if(chatMSGS.size() > 0) {
                             from = chatMSGS.get(0);
+                            if(from == null)continue;
                             boolean flag = false;
                             for(SocketThread toThread : mThreadList) {
+                                if(toThread.fromid == null){
+                                    continue;
+                                }
                                 if(toThread.fromid.equals(from.getTargetid())) {
                                     //这里的writer是SocketThread中的writer,这样才能保证在调用writer.flush之后消息到达
                                     //我们的指定方
@@ -101,7 +105,7 @@ public class SocketServer{
                     chatMSGS.remove(from);
                     chatMSGS.add(from);
                     whileflag = false;
-                    sendMsg(socket);
+                    sendMsg();
                     this.stop();
                 }catch (IOException e) {
                     e.printStackTrace();

@@ -3,9 +3,7 @@ package servlets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import data_access_object.GoodsDAO;
-import data_access_object.UserDAO;
 import entity.Goods;
-import entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,7 +53,7 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                     result = 2;
                     String userId = jsonObject.get("userId").toString();
                     ArrayList<Goods> goodsArrayList = new ArrayList<>();
-                    goodsArrayList = GoodsDAO.queryGoods(userId);
+                    goodsArrayList = GoodsDAO.queryGoodsList(userId);
                     if(goodsArrayList == null)
                         result = 3;
                     retJson = "{'status':"+ result +",'ArrayList<Goods>':"+gson.toJson(goodsArrayList)+"}";

@@ -48,6 +48,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ReceivingInfoServlet</servlet-name>
+        <servlet-class>servlets.ReceivingInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReceivingInfoServlet</servlet-name>
+        <url-pattern>/ReceiveInfo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>AddFriendServlet</servlet-name>
         <servlet-class>servlets.AddFriendServlet</servlet-class>
     </servlet>
@@ -64,18 +73,6 @@
         <servlet-name>FriendsServlet</servlet-name>
         <url-pattern>/friends</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ReceivingInfoServlet</servlet-name>
-        <servlet-class>servlets.ReceivingInfoServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReceivingInfoServlet</servlet-name>
-        <url-pattern>/ReceiveInfo</url-pattern>
-    </servlet-mapping>
-
-
-
 
     <servlet>
         <servlet-name>AccountManageServlet</servlet-name>
@@ -111,6 +108,24 @@
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/Search</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MyServlet</servlet-name>
+        <servlet-class>servlets.MyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyServlet</servlet-name>
+        <url-pattern>/myServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>servlets.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/Order</url-pattern>
     </servlet-mapping>
 
     <servlet>
