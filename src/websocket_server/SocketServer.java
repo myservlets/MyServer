@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -47,6 +48,7 @@ public class SocketServer{
 
                 SocketThread socketThread = new SocketThread(socket);
                 socketThread.start();
+                socketThread.checkConn();
                 mThreadList.add(socketThread);
             }
 
@@ -125,11 +127,36 @@ public class SocketServer{
             this.clientSocket = clientSocket;
         }
 
+        //心跳包
+        private void checkConn(){
+            new Thread() {
+                @Override
+                public void run(){
+                    try
+                    {
+                        int index = 1;
+                        while (true) {
+                           socket.sendUrgentData(0xFF);//发送心跳包
+                            System.out.println("目标处于链接状态！");
+                            Thread.sleep(3*1000);
+                        }
+                    } catch (IOException e) {
+                        try {
+                            socket.close();
+                            System.out.println("服务器关闭连接！");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
         public void start() throws InterruptedException {
             new Thread(){
                 @Override
                 public void run() {
-
                     try {
                         // 获取读取流
                         mReader = new BufferedReader( new InputStreamReader(clientSocket.getInputStream(),"utf-8"));
@@ -141,8 +168,9 @@ public class SocketServer{
                                 String json=mReader.readLine();
                                 Gson gson = new Gson();
                                 ChatMSG msg = gson.fromJson(json,ChatMSG.class);
+                                msg.setDate(new Date());
                                 fromid = msg.getFromid();
-                                chatMSGS.add(msg);
+                                chatMSGS.add(0,msg);
                                 if(i == 0){
                                     for(int a = 0;a<mThreadList.size()-1;a++){
                                         SocketThread socketThread = mThreadList.get(a);
@@ -166,4 +194,5 @@ public class SocketServer{
             }.start();
         }
     }
+
 }
