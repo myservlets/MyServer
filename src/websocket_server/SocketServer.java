@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -90,7 +91,7 @@ public class SocketServer{
                                     String json = new Gson().toJson(from);
                                     writer.write(json+"\n");
                                     writer.flush();
-                                    System.out.println("转发消息成功");
+                                    System.out.println("转发消息成功"+from.getContent());
                                     break;
                                 }
                             }
@@ -142,7 +143,8 @@ public class SocketServer{
                                 Gson gson = new Gson();
                                 ChatMSG msg = gson.fromJson(json,ChatMSG.class);
                                 fromid = msg.getFromid();
-                                chatMSGS.add(msg);
+                                msg.setDate(new Date());
+                                chatMSGS.add(0,msg);
                                 if(i == 0){
                                     for(int a = 0;a<mThreadList.size()-1;a++){
                                         SocketThread socketThread = mThreadList.get(a);
