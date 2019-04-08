@@ -26,13 +26,16 @@ public class SocketServer{
     }
     private static Socket socket= null;
     private static SocketThread currentThread = null;
+    private static ChatMSG emptymsg = new ChatMSG();
     /**
      * 启动服务监听，等待客户端连接
      */
     public static void startService() {
         try {
             // 创建ServerSocket
-            ServerSocket serverSocket = new ServerSocket(25781);
+            emptymsg.setContent("");
+
+            ServerSocket serverSocket = new ServerSocket(9999);
             System.out.println("--开启服务器，监听端口 9999--");
             InetAddress address = InetAddress.getLocalHost();
             System.out.println("主机名："+address.getHostName());//主机名
@@ -138,7 +141,15 @@ public class SocketServer{
                     {
                         int index = 1;
                         while (true) {
-                           socket.sendUrgentData(32);//发送心跳包
+                            BufferedWriter writer = myself.mWriter;
+                            if(writer == null){
+                                Thread.sleep(3*100);
+                                continue;
+                            }
+                            String json = new Gson().toJson(emptymsg);
+                            writer.write(json+"\n");
+                            writer.flush();
+                           //socket.sendUrgentData(32);//发送心跳包
                             System.out.println("目标处于链接状态！");
                             Thread.sleep(3*1000);
                         }

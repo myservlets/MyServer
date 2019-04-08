@@ -70,7 +70,7 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                     break;
                 case 3://删除商品
                     result=6;
-                    int goodsId = Integer.parseInt(jsonObject.get("goodsId").toString());
+                    int goodsId = Integer.parseInt(jsonObject.get("goods").toString());
                     if(GoodsDAO.deleteGoods(goodsId)==0)
                         result = 7;
                     params = new HashMap<>();
