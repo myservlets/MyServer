@@ -32,7 +32,7 @@ public class SocketServer{
     public static void startService() {
         try {
             // 创建ServerSocket
-            ServerSocket serverSocket = new ServerSocket(9999);
+            ServerSocket serverSocket = new ServerSocket(25781);
             System.out.println("--开启服务器，监听端口 9999--");
             InetAddress address = InetAddress.getLocalHost();
             System.out.println("主机名："+address.getHostName());//主机名
