@@ -24,6 +24,7 @@ import java.util.UUID;
 @WebServlet(name = "ImageHandlerServlet")
 public class ImageHandlerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("ImageHandler:");
         //创建配置工厂
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 2. 根据配置工厂创建解析请求中文件上传内容的解析器
@@ -57,7 +58,7 @@ public class ImageHandlerServlet extends HttpServlet {
 
                         // 使用用户上传的文件名来保存文件的话，文件名可能重复。
                         // 所以保存文件之前，要保证文件名不会重复。使用UUID生成随机字符串
-                        String fileName = UUID.randomUUID().toString()+str1.substring(str1.lastIndexOf("."));
+                        String fileName = "icon" + str1.substring(str1.lastIndexOf("."));
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
                         //String datePath = simpleDateFormat.format(new Date()); // 解析成    /2017/04/15/  的样子, 注意这是三个文件夹
                         String wholePath = "D:/upload/"+userId+"/";
@@ -79,7 +80,6 @@ public class ImageHandlerServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         }
 
 
