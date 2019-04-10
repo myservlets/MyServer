@@ -57,10 +57,12 @@ public class ImageHandlerServlet extends HttpServlet {
 
                         // 使用用户上传的文件名来保存文件的话，文件名可能重复。
                         // 所以保存文件之前，要保证文件名不会重复。使用UUID生成随机字符串
-                        String fileName = UUID.randomUUID().toString()+str1.substring(str1.lastIndexOf("."));
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
+                        String fileName = "icon"+str1.substring(str1.lastIndexOf("."));
+
+                                //UUID.randomUUID().toString()+str1.substring(str1.lastIndexOf("."));
+                        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
                         //String datePath = simpleDateFormat.format(new Date()); // 解析成    /2017/04/15/  的样子, 注意这是三个文件夹
-                        String wholePath = "D:/upload/"+userId+"/";
+                        String wholePath = "E:/upload/"+userId+"/";
                         // 字节输出流，用以保存文件，也不需要后缀名，因为我们只是保存用户的数据，不需要查看他们的数据。待用户想下载的时候，再加上后缀名
                         File dir = new File(wholePath);
                         // mkdirs可以建立多级目录。即使所有层级的目录都不存在。这些文件夹都会创建,比如我们事先并没有创建在D盘创建upload和2017等这些文件夹
@@ -73,6 +75,8 @@ public class ImageHandlerServlet extends HttpServlet {
                         // 将输入流复制到输出流中
                         IOUtils.copy(in, fos);
                         fos.close();
+                        deleteLastIcon();
+                        updateDB();
                     }
                 }
             }
@@ -81,6 +85,12 @@ public class ImageHandlerServlet extends HttpServlet {
         }
 
         }
+
+    private void updateDB() {
+    }
+
+    private void deleteLastIcon() {
+    }
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
