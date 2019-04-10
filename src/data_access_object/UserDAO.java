@@ -40,6 +40,7 @@ public class UserDAO {
                 user.setNickname(resultSet.getString("nickName"));
                 user.setPassword(resultSet.getString("password"));
                 user.setUserId(resultSet.getString("userId"));
+                user.setIcon(resultSet.getString("icon"));
                 return user;
             } else {
                 return null;
@@ -139,6 +140,30 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
             preparedStatement.setString(1, s);
             preparedStatement.setString(2, user.getUserId());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement,null);
+        }
+    }
+
+    public static int updateIcon(String userId,String iconAddress){
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("UPDATE users set icon = ? where " +
+                "userid = ?");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setString(1, iconAddress);
+            preparedStatement.setString(2, userId);
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
