@@ -251,6 +251,30 @@ public class GoodsDAO {
         }
     }
 
+    public static int updateGoodsPic(Goods goods){
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("UPDATE goods set picAddress1 = "+goods.getPicAddress1()+
+                ",picAddress2 = "+goods.getPicAddress2()+
+                ",picAddress3 = "+goods.getPicAddress3()+
+                " where goodsId = ?");
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setInt(1, goods.getGoodsId());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement,null);
+        }
+    }
+
     public static int updateGoods(Goods goods){
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();
