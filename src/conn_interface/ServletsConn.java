@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ServletsConn {
-    static String host = "http://243i4s6955.zicp.vip/MyServlets_war_exploded/";
+    static String host = "http://243i4s6955.zicp.vip/test/";
     public static String connServlets(String url,String json){
         Gson gson = new Gson();
         HttpURLConnection conn = null;

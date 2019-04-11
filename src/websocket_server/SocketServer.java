@@ -4,11 +4,10 @@ package websocket_server;
 import com.google.gson.Gson;
 import entity.ChatMSG;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,49 +16,72 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 服务端
  *
  */
-public class SocketServer{
+public class SocketServer extends HttpServlet {
 
     public static CopyOnWriteArrayList<ChatMSG> chatMSGS = new CopyOnWriteArrayList<>();
     private static ArrayList<SocketThread> mThreadList = new ArrayList<>();
-    public static void main(String[] args) {
-        startService();
-    }
     private static Socket socket= null;
     private static SocketThread currentThread = null;
     private static ChatMSG emptymsg = new ChatMSG();
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        startService();
+    }
+
     /**
      * 启动服务监听，等待客户端连接
      */
     public static void startService() {
-        try {
-            // 创建ServerSocket
-            emptymsg.setContent("");
+        new Thread() {
+            @Override
+            public void run() {
+                try
 
-            ServerSocket serverSocket = new ServerSocket(9999);
-            System.out.println("--开启服务器，监听端口 9999--");
-            InetAddress address = InetAddress.getLocalHost();
-            System.out.println("主机名："+address.getHostName());//主机名
-            //System.out.println(address.getCanonicalHostName());//主机别名
-            System.out.println("IP地址："+address.getHostAddress());//获取IP地址
-            System.out.println("===============");
-            sendMsg();
-            // 监听端口，等待客户端连接
-            while (true) {
-                System.out.println("--等待客户端连接--");
-                socket = serverSocket.accept(); //等待客户端连接
-                System.out.println("得到客户端连接：" + socket);
+                {
+                    // 创建ServerSocket
+                    emptymsg.setContent("");
 
-                SocketThread socketThread = new SocketThread(socket);
-                socketThread.start();
-                socketThread.checkConn();
-                mThreadList.add(socketThread);
+                    ServerSocket serverSocket = new ServerSocket(9999);
+                    System.out.println("--开启服务器，监听端口 9999--");
+                    InetAddress address = InetAddress.getLocalHost();
+                    System.out.println("主机名：" + address.getHostName());//主机名
+                    //System.out.println(address.getCanonicalHostName());//主机别名
+                    System.out.println("IP地址：" + address.getHostAddress());//获取IP地址
+                    System.out.println("===============");
+                    sendMsg();
+                    // 监听端口，等待客户端连接
+                    while (true) {
+                        System.out.println("--等待客户端连接--");
+                        socket = serverSocket.accept(); //等待客户端连接
+                        System.out.println("得到客户端连接：" + socket);
+
+                        SocketThread socketThread = new SocketThread(socket);
+                        socketThread.start();
+                        socketThread.checkConn();
+                        mThreadList.add(socketThread);
+                    }
+                }catch(
+                        BindException e)
+
+                {
+                    return;
+                }catch(
+                        IOException e)
+
+                {
+                    e.printStackTrace();
+                } catch(
+                        InterruptedException e)
+
+                {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        }.start();
     }
+
 
     /**
      * 发送消息
