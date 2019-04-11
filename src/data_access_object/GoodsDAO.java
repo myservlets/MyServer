@@ -1,5 +1,7 @@
 package data_access_object;
 
+import Utils.DoFiles;
+import configuration_files.Source;
 import db_connecter.DBManager;
 import entity.Goods;
 import entity.User;
@@ -256,6 +258,7 @@ public class GoodsDAO {
         Connection connection = DBManager.getConnection();
         PreparedStatement preparedStatement = null;
 
+        Goods goods1 = queryGoods(goods.getGoodsId());
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
         sqlStatement.append("UPDATE goods set picAddress1 = "+goods.getPicAddress1()+
@@ -266,6 +269,9 @@ public class GoodsDAO {
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
             preparedStatement.setInt(1, goods.getGoodsId());
+            DoFiles.deleteFile(Source.goodsPicSource + goods.getGoodsId() + "/" +goods1.getPicAddress1());
+            DoFiles.deleteFile(Source.goodsPicSource + goods.getGoodsId() + "/" +goods1.getPicAddress2());
+            DoFiles.deleteFile(Source.goodsPicSource + goods.getGoodsId() + "/" +goods1.getPicAddress3());
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);

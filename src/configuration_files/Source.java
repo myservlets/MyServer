@@ -3,7 +3,8 @@ package configuration_files;
 import javax.swing.*;
 
 public class Source {
-    public static String iconSource = "E:/tomcat/webapps/test/icon/";
-    public static String goodsPicSource = "E:/tomcat/webapps/test/goodsPicture/";
-    public static String taskPicSource = "E:/tomcat/webapps/test/taskPicture/";
+    public static String source = "E:/tomcat/webapps/test/";
+    public static String iconSource = source + "icon/";
+    public static String goodsPicSource = source + "goodsPicture/";
+    public static String taskPicSource = source + "taskPicture/";
 }
