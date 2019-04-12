@@ -13,6 +13,8 @@ public class ReceiveInfo {
 
     private int rId;
 
+    private int isDefault;
+
     public void setAddress(String address) { this.address = address; }
 
     public String getAddress() { return address; }
@@ -31,5 +33,13 @@ public class ReceiveInfo {
 
     public void setrId(int rId) {
         this.rId = rId;
+    }
+
+    public int getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(int isDefault) {
+        this.isDefault = isDefault;
     }
 }

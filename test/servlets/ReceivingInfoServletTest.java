@@ -72,6 +72,17 @@ public class ReceivingInfoServletTest {
                 ArrayList<ReceiveInfo> receiveInfos = gson.fromJson(jsonObject.get("ArrayList<ReceiveInfo>").toString(),listType);
                 System.out.println(receiveInfos);
                 break;
+            case 7:
+                System.out.println("获取用户默认收货地址");
+                ReceiveInfo receiveInfo = gson.fromJson(jsonObject.get("Receiveinfo").toString(),ReceiveInfo.class);
+                System.out.println(receiveInfo);
+                break;
+            case 8:
+                System.out.println("设置用户默认收货地址成功");
+                break;
+            case 9:
+                System.out.println("设置用户默认收货地址失败");
+                break;
         }
     }
     private String deleteReceiveInfo(ReceiveInfo receiveInfo) {
@@ -96,6 +107,18 @@ public class ReceivingInfoServletTest {
         sign=2;
         Gson gson = new Gson();
         String json = "{'sign':"+ sign +",'ReceiveInfo':"+ gson.toJson(receiveInfo1) +",'ReceiveInfo2':"+gson.toJson(receiveInfo2)+"}";
+        return ServletsConn.connServlets("ReceiveInfo",json);
+    }
+    private String setDefault(ReceiveInfo receiveInfo){
+        sign=5;
+        Gson gson = new Gson();
+        String json = "{'sign':"+ sign +",'ReceiveInfo':"+gson.toJson(receiveInfo)+"}";
+        return ServletsConn.connServlets("ReceiveInfo",json);
+    }
+    private String getDefault(User user){
+        sign=4;
+        Gson gson = new Gson();
+        String json = "{'sign':"+ sign +",'User':"+gson.toJson(user)+"}";
         return ServletsConn.connServlets("ReceiveInfo",json);
     }
 }

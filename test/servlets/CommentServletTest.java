@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import conn_interface.ServletsConn;
 import entity.Comment;
+import entity.CommentItem;
 import entity.Order;
 import org.junit.Test;
 
@@ -37,14 +38,14 @@ public class CommentServletTest {
                 break;
             case 2:
                 System.out.println("查询成功");//查询商品的评论信息
-                ArrayList<Comment> comments = new ArrayList<>();
-                Type listType = new TypeToken<ArrayList<Comment>>() {}.getType();
-                comments = gson.fromJson(jsonObject.get("ArrayList<Comment>").toString(),listType);
-                System.out.println(comments);
+                ArrayList<CommentItem> commentItems = new ArrayList<>();
+                Type listType = new TypeToken<ArrayList<CommentItem>>() {}.getType();
+                commentItems = gson.fromJson(jsonObject.get("ArrayList<CommentItem>").toString(),listType);
+                System.out.println(commentItems);
                 break;
             case 3:
                 System.out.println("查询成功");//查询该用户发布过的评论
-                comments = new ArrayList<>();
+                ArrayList<Comment> comments = new ArrayList<>();
                 listType = new TypeToken<ArrayList<Comment>>() {}.getType();
                 comments = gson.fromJson(jsonObject.get("ArrayList<Comment>").toString(),listType);
                 System.out.println(comments);

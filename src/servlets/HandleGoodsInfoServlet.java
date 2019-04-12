@@ -36,58 +36,60 @@ public class HandleGoodsInfoServlet extends HttpServlet {
             reader.close();
 
             goods = gson.fromJson(jsonObject.get("Goods"),Goods.class);
-            switch (sign){
-                case 0://发布商品
-                    //结果
-                    int result = 0;
-                    Goods resGoods = GoodsDAO.insertGoods(goods);
-                    if(resGoods == null)
-                        result = 1;
-                    Map<String, Integer> params = new HashMap<>();
+            try {
+                switch (sign) {
+                    case 0://发布商品
+                        //结果
+                        int result = 0;
+                        Goods resGoods = GoodsDAO.insertGoods(goods);
+                        if (resGoods == null)
+                            result = 1;
+                        Map<String, Integer> params = new HashMap<>();
 
-                    params.put("status",result);
-                    String retJson = gson.toJson(params);
-                    out.write(retJson);
-                    break;
-                case 1://查询已发布的商品列表
-                    result = 2;
-                    String userId = jsonObject.get("userId").toString();
-                    ArrayList<Goods> goodsArrayList = new ArrayList<>();
-                    goodsArrayList = GoodsDAO.queryGoodsList(userId);
-                    if(goodsArrayList == null)
-                        result = 3;
-                    retJson = "{'status':"+ result +",'ArrayList<Goods>':"+gson.toJson(goodsArrayList)+"}";
-                    out.write(retJson);
-                    break;
-                case 2://修改商品信息
-                    result = 4;
-                    if (GoodsDAO.updateGoods(goods)==0)
-                        result = 5;
-                    params = new HashMap<>();
-                    params.put("status",result);
-                    retJson = gson.toJson(params);
-                    out.write(retJson);
-                    break;
-                case 3://删除商品
-                    result=6;
-                    int goodsId = Integer.parseInt(jsonObject.get("goods").toString());
-                    if(GoodsDAO.deleteGoods(goodsId)==0)
-                        result = 7;
-                    params = new HashMap<>();
-                    params.put("status",result);
-                    retJson = gson.toJson(params);
-                    out.write(retJson);
-                case 4://查询所有已发布商品
-                    result = 8;
-                    goodsArrayList = new ArrayList<>();
-                    goodsArrayList = GoodsDAO.queryGoodsList();
-                    if(goodsArrayList == null)
-                        result = 9;
-                    retJson = "{'status':"+ result +",'ArrayList<Goods>':"+gson.toJson(goodsArrayList)+"}";
-                    out.write(retJson);
-                    break;
-                    default:
+                        params.put("status", result);
+                        String retJson = gson.toJson(params);
+                        out.write(retJson);
                         break;
+                    case 1://查询已发布的商品列表
+                        result = 2;
+                        String userId = jsonObject.get("userId").toString();
+                        ArrayList<Goods> goodsArrayList = new ArrayList<>();
+                        goodsArrayList = GoodsDAO.queryGoodsList(userId);
+                        if (goodsArrayList == null)
+                            result = 3;
+                        retJson = "{'status':" + result + ",'ArrayList<Goods>':" + gson.toJson(goodsArrayList) + "}";
+                        out.write(retJson);
+                        break;
+                    case 2://修改商品信息
+                        result = 4;
+                        if (GoodsDAO.updateGoods(goods) == 0)
+                            result = 5;
+                        params = new HashMap<>();
+                        params.put("status", result);
+                        retJson = gson.toJson(params);
+                        out.write(retJson);
+                        break;
+                    case 3://删除商品
+                        result = 6;
+                        int goodsId = Integer.parseInt(jsonObject.get("goods").toString());
+                        if (GoodsDAO.deleteGoods(goodsId) == 0)
+                            result = 7;
+                        params = new HashMap<>();
+                        params.put("status", result);
+                        retJson = gson.toJson(params);
+                        out.write(retJson);
+                    case 4://查询所有已发布商品
+                        result = 8;
+                        goodsArrayList = new ArrayList<>();
+                        goodsArrayList = GoodsDAO.queryGoodsList();
+                        if (goodsArrayList == null)
+                            result = 9;
+                        retJson = "{'status':" + result + ",'ArrayList<Goods>':" + gson.toJson(goodsArrayList) + "}";
+                        out.write(retJson);
+                        break;
+                }
+            }catch (NullPointerException e){
+                out.write("{'status':"+10+"}");
             }
         }
         catch (Exception e){
