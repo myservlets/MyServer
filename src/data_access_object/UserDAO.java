@@ -1,8 +1,12 @@
 package data_access_object;
 
+import Utils.DoFiles;
+import configuration_files.Source;
 import db_connecter.DBManager;
 import entity.User;
 
+import javax.jws.soap.SOAPBinding;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -121,6 +125,8 @@ public class UserDAO {
         }
     }
 
+
+
     public static int updateUser(int sign,String s,User user){
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();
@@ -150,6 +156,7 @@ public class UserDAO {
     }
 
     public static int updateIcon(String userId,String iconAddress){
+        User user = queryUser(userId);
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();
         PreparedStatement preparedStatement = null;
@@ -158,12 +165,12 @@ public class UserDAO {
         StringBuilder sqlStatement = new StringBuilder();
         sqlStatement.append("UPDATE users set icon = ? where " +
                 "userid = ?");
-
         //设置数据库的字段值
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
             preparedStatement.setString(1, iconAddress);
             preparedStatement.setString(2, userId);
+            DoFiles.deleteFile(Source.iconSource + userId + "/" +user.getIcon());
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

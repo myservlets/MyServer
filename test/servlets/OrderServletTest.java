@@ -86,9 +86,11 @@ public class OrderServletTest {
         String json = "{'sign':"+ sign +",'Order':"+gson.toJson(order)+"}";
         return ServletsConn.connServlets("Order",json);
     }
+    //查询status = 0/购物车 1/待付款 2/待发货 3/待收货 4/待评论 5/售后的信息
     private String query (String userId,int status){
         Gson gson = new Gson();
         sign = 3;//查询
+        status = 0;// 0/购物车 1/待付款 2/待发货 3/待收货 4/待评论 5/售后
         String json = "{'sign':"+ sign +",'userId':"+userId+",'status':"+status+"}";
         return ServletsConn.connServlets("Order",json);
     }

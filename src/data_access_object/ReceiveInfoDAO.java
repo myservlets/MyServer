@@ -2,6 +2,7 @@ package data_access_object;
 
 import db_connecter.DBManager;
 import entity.ReceiveInfo;
+import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,9 +42,68 @@ public class ReceiveInfoDAO {
                 receiveInfo.setPhone(resultSet.getString("phone"));
                 receiveInfo.setAddress(resultSet.getString("address"));
                 receiveInfo.setrId(resultSet.getInt("rId"));
+                receiveInfo.setIsDefault(resultSet.getInt("isdefault"));
                 receiveInfos.add(receiveInfo);
             }
             return receiveInfos;
+        } catch (SQLException ex) {
+            Logger.getLogger(ReceiveInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+
+    public static int setDefault(ReceiveInfo receiveInfo) {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("update receiveInfo set isDefault = 1 where rId = ?");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setInt(1, receiveInfo.getrId());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReceiveInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+
+    public static ReceiveInfo getDefault(String userId) {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("SELECT * FROM receiveinfo WHERE userId=? and isdefault = 1");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setString(1, userId);
+
+            resultSet = preparedStatement.executeQuery();
+            ReceiveInfo receiveInfo = new ReceiveInfo();
+            if (resultSet.next()) {
+                receiveInfo.setUserId(userId);
+                receiveInfo.setrId(resultSet.getInt("rid"));
+                receiveInfo.setAddress(resultSet.getString("address"));
+                receiveInfo.setPhone(String.valueOf(resultSet.getInt("phone")));
+                receiveInfo.setIsDefault(resultSet.getInt("isDefault"));
+                return receiveInfo;
+            } else {
+                return null;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ReceiveInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -59,7 +119,7 @@ public class ReceiveInfoDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("INSERT INTO receiveInfo (userId, phone, address) VALUES(?,?,?);");
+        sqlStatement.append("INSERT INTO receiveInfo (userId, phone, address) VALUES(?,?,?)");
 
         //设置数据库的字段值
         try {

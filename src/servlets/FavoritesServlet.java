@@ -3,11 +3,9 @@ package servlets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import data_access_object.CommentDAO;
-import data_access_object.OrderDAO;
 import entity.Comment;
 import entity.CommentItem;
 import entity.Goods;
-import entity.Order;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,11 +18,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@WebServlet(name = "CommentServlet")
-public class CommentServlet extends HttpServlet {
+@WebServlet(name = "FavoritesServlet")
+public class FavoritesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Gson gson=new Gson();
-        System.out.println("order:");
+        System.out.println("Favorites:");
         Goods goods = new Goods();
 
         // 设置响应内容类型

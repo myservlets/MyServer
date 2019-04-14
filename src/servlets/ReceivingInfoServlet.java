@@ -89,6 +89,25 @@ public class ReceivingInfoServlet extends HttpServlet {
                         retStr = "{'status':"+status+",'ArrayList<ReceiveInfo>':"+gson.toJson(receiveInfos)+"}";
                         out.write(retStr);
                         break;
+                    case 4:
+                        status = 7;
+                        System.out.println("获取用户默认收货地址");
+                        user = gson.fromJson(jsonObject.get("User").toString(),User.class);
+                        receiveInfo = ReceiveInfoDAO.getDefault(user.getUserId());
+                        retStr = "{'status':"+status+",'ReceiveInfo':"+gson.toJson(receiveInfo)+"}";
+                        out.write(retStr);
+                        break;
+                    case 5:
+                        status = 8;
+                        System.out.println("设置用户默认收货地址");
+                        receiveInfo = gson.fromJson(jsonObject.get("ReceiveInfo").toString(),ReceiveInfo.class);
+                        if (ReceiveInfoDAO.setDefault(receiveInfo)==0)
+                            status = 9;
+                        params = new HashMap<>();
+                        params.put("status",status);
+                        retStr = gson.toJson(params);
+                        out.write(retStr);
+                        break;
                 }
             }
         }

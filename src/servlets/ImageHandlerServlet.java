@@ -3,7 +3,7 @@ package servlets;
 import data_access_object.GoodsDAO;
 import data_access_object.UserDAO;
 import entity.Goods;
-import javafx.scene.SubScene;
+import configuration_files.Source;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,7 +78,7 @@ public class ImageHandlerServlet extends HttpServlet {
                             String fileName = UUID.randomUUID() + str1.substring(str1.lastIndexOf("."));
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
                             //String datePath = simpleDateFormat.format(new Date()); // 解析成    /2017/04/15/  的样子, 注意这是三个文件夹
-                            String wholePath = "E:/tomcat/webapps/MyServer_war_exploded/icon/" + userId + "/";
+                            String wholePath = Source.iconSource + userId + "/";
                             // 字节输出流，用以保存文件，也不需要后缀名，因为我们只是保存用户的数据，不需要查看他们的数据。待用户想下载的时候，再加上后缀名
                             File dir = new File(wholePath);
                             // mkdirs可以建立多级目录。即使所有层级的目录都不存在。这些文件夹都会创建,比如我们事先并没有创建在D盘创建upload和2017等这些文件夹
@@ -105,7 +104,7 @@ public class ImageHandlerServlet extends HttpServlet {
                                 fileName = UUID.randomUUID() + str1.substring(str1.lastIndexOf("."));
                                 simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
                                 //String datePath = simpleDateFormat.format(new Date()); // 解析成    /2017/04/15/  的样子, 注意这是三个文件夹
-                                wholePath = "E:/tomcat/webapps/MyServer_war_exploded/goodsPicture/" + goodsId + "/";
+                                wholePath = Source.goodsPicSource + goodsId + "/";
                                 // 字节输出流，用以保存文件，也不需要后缀名，因为我们只是保存用户的数据，不需要查看他们的数据。待用户想下载的时候，再加上后缀名
                                 dir = new File(wholePath);
                                 // mkdirs可以建立多级目录。即使所有层级的目录都不存在。这些文件夹都会创建,比如我们事先并没有创建在D盘创建upload和2017等这些文件夹
