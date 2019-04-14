@@ -147,4 +147,12 @@
         <url-pattern>/comment</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RecruitmentServlet</servlet-name>
+        <servlet-class>servlets.RecruitmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RecruitmentServlet</servlet-name>
+        <url-pattern>/recruitment</url-pattern>
+    </servlet-mapping>
 </web-app>
