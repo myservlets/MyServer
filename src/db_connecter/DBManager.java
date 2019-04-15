@@ -17,17 +17,6 @@ import javax.servlet.http.HttpServlet;
  * @author Implementist
  */
 public class DBManager extends HttpServlet {
-    public static void setUsername(String username) {
-        DBManager.username = username;
-    }
-
-    public static void setPassword(String password) {
-        DBManager.password = password;
-    }
-
-    public static void setUrl(String url) {
-        DBManager.url = url;
-    }
 
     ServletConfig config;                             //定义一个ServletConfig对象
     private static String username;                   //定义的数据库用户名

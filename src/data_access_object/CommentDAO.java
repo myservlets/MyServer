@@ -26,7 +26,8 @@ public class CommentDAO {
 
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("SELECT * FROM `myapp_schema`.`comment` WHERE goodsId=?");
+        sqlStatement.append("SELECT * FROM `myapp_schema`.`comment` WHERE goodsId=?" +
+                "ORDER BY Date DESC;");
 
         //设置数据库的字段值
         try {

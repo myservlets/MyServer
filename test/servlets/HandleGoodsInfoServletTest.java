@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import conn_interface.ServletsConn;
 import entity.Goods;
+import entity.GoodsDetails;
 import entity.Province;
 import entity.User;
 import org.junit.Test;
@@ -46,6 +47,9 @@ public class HandleGoodsInfoServletTest {
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
             result = Integer.parseInt(jsonObject.get("status").toString());
         switch (result){
+            case -1:
+                System.out.println("数据库异常");
+                //MyApplication.toastMsg("数据库异常");
             case 0:
                 System.out.println("发布成功");
                 break;
@@ -83,6 +87,11 @@ public class HandleGoodsInfoServletTest {
             case 9:
                 System.out.println("查询失败");
                 break;
+            case 10:
+                System.out.println("商品详情");
+                GoodsDetails goodsDetails = new GoodsDetails();
+                goodsDetails = gson.fromJson(jsonObject.get("goodsDetails").toString(),GoodsDetails.class);
+                System.out.println(goodsDetails);
         }
     }
 
@@ -113,6 +122,12 @@ public class HandleGoodsInfoServletTest {
     private String delete (int goodsId){
         Gson gson = new Gson();
         sign = 3;//删除
+        String json = "{'sign':"+ sign +",'goodsId':"+ goodsId +"}";
+        return ServletsConn.connServlets("HandleGoodsInfo",json);
+    }
+    private String getGoodsDetails (int goodsId){
+        Gson gson = new Gson();
+        sign = 5;//删除
         String json = "{'sign':"+ sign +",'goodsId':"+ goodsId +"}";
         return ServletsConn.connServlets("HandleGoodsInfo",json);
     }

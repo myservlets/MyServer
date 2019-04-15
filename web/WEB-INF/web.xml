@@ -151,7 +151,6 @@
 
     <servlet>
         <servlet-name>SocketServer</servlet-name>
-        <!-- 下面这行是DBManager这个类的定位，“包名”替换为你在前面第4步中创建的包名，区分大小写！！！ -->
         <servlet-class>websocket_server.SocketServer</servlet-class>
         <!-- 指示服务器在启动时立即加载这个Servlet -->
         <load-on-startup>0</load-on-startup>
@@ -161,12 +160,4 @@
         <url-pattern>/SocketServer</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>RecruitmentServlet</servlet-name>
-        <servlet-class>servlets.RecruitmentServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RecruitmentServlet</servlet-name>
-        <url-pattern>/recruitment</url-pattern>
-    </servlet-mapping>
 </web-app>
