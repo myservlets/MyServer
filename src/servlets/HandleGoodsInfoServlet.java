@@ -2,8 +2,12 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import data_access_object.CommentDAO;
 import data_access_object.GoodsDAO;
+import data_access_object.UserDAO;
 import entity.Goods;
+import entity.GoodsDetails;
+import entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -87,9 +91,22 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                         retJson = "{'status':" + result + ",'ArrayList<Goods>':" + gson.toJson(goodsArrayList) + "}";
                         out.write(retJson);
                         break;
+                    case 5://查询商品详情
+                        result = 10;
+                        GoodsDetails goodsDetails = new GoodsDetails();
+                        goodsId = Integer.parseInt(jsonObject.get("goodsId").toString());
+                        goods = GoodsDAO.queryGoods(goodsId);
+                        User user = UserDAO.queryUser(goods.getUserId());
+                        goodsDetails.setSaler(user);
+                        goodsDetails.setChoosedGoods(goods);
+                        goodsDetails.setLatestComment(CommentDAO.queryComment(goodsId).get(0).getComment());
+                        goodsDetails.setRecommendGoods(GoodsDAO.queryGoodsList());
+                        retJson = "{'status':" + result + ",'goodsDetails':" + gson.toJson(goodsDetails) + "}";
+                        out.write(retJson);
+                        break;
                 }
             }catch (NullPointerException e){
-                out.write("{'status':"+10+"}");
+                out.write("{'status':"+-1+"}");
             }
         }
         catch (Exception e){

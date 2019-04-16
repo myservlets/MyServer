@@ -78,6 +78,7 @@ public class OrderServlet extends HttpServlet {
                     retStr = "{'status':"+ result +",'ArrayList<Order>':"+gson.toJson(orders)+"}";
                     out.write(retStr);
                     break;
+                case 4://
             }
         }
         catch (Exception e){
