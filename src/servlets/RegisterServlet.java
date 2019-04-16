@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 
             Map<String, Integer> params = new HashMap<>();
 
-            params.put("result",result);
+            //params.put("result",result);
             params.put("status",result);
             String s = gson.toJson(params);
             out.write(s);
