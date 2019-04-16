@@ -1,4 +1,4 @@
-﻿package servlets;
+package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

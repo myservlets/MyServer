@@ -3,6 +3,7 @@ package servlets;
 import com.google.gson.Gson;
 import data_access_object.UserDAO;
 import entity.User;
+import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,8 +50,6 @@ public class LoginServlet extends HttpServlet {
         catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
 

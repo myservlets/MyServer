@@ -20,13 +20,16 @@ public class Comment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return date1;
     }
 
     public void setDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.date = sdf.format(date);
+        try {
+            this.date = sdf.format(date);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     public String getUserId() {

@@ -15,7 +15,7 @@
         </init-param>
         <init-param>
             <param-name>DBPassword</param-name>
-            <param-value>123456</param-value><!--数据库密码-->
+            <param-value>whu123456</param-value><!--数据库密码-->
         </init-param>
         <init-param>
             <param-name>ConnectionURL</param-name>

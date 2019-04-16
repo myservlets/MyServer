@@ -41,7 +41,7 @@ public class CommentServletTest {
                 ArrayList<CommentItem> commentItems = new ArrayList<>();
                 Type listType = new TypeToken<ArrayList<CommentItem>>() {}.getType();
                 commentItems = gson.fromJson(jsonObject.get("ArrayList<CommentItem>").toString(),listType);
-                System.out.println(commentItems);
+                System.out.println(commentItems.size());
                 break;
             case 3:
                 System.out.println("查询成功");//查询该用户发布过的评论
