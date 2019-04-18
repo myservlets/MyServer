@@ -76,7 +76,7 @@ public class ImageHandlerServlet extends HttpServlet {
                             // 使用用户上传的文件名来保存文件的话，文件名可能重复。
                             // 所以保存文件之前，要保证文件名不会重复。使用UUID生成随机字符串
                             String fileName = UUID.randomUUID() + str1.substring(str1.lastIndexOf("."));
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
+                            //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
                             //String datePath = simpleDateFormat.format(new Date()); // 解析成    /2017/04/15/  的样子, 注意这是三个文件夹
                             String wholePath = Source.iconSource + userId + "/";
                             // 字节输出流，用以保存文件，也不需要后缀名，因为我们只是保存用户的数据，不需要查看他们的数据。待用户想下载的时候，再加上后缀名
@@ -96,13 +96,15 @@ public class ImageHandlerServlet extends HttpServlet {
                             case 1://用户上传商品图片
                                 in = fileItem.getInputStream();
                                 str1 = fileItem.getName();
-                                int order = Integer.parseInt(fileItem.getFieldName());
-
-
                                 // 使用用户上传的文件名来保存文件的话，文件名可能重复。
                                 // 所以保存文件之前，要保证文件名不会重复。使用UUID生成随机字符串
                                 fileName = UUID.randomUUID() + str1.substring(str1.lastIndexOf("."));
-                                simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
+
+                                int order = Integer.parseInt(fileItem.getFieldName());
+
+
+
+                                //simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
                                 //String datePath = simpleDateFormat.format(new Date()); // 解析成    /2017/04/15/  的样子, 注意这是三个文件夹
                                 wholePath = Source.goodsPicSource + goodsId + "/";
                                 // 字节输出流，用以保存文件，也不需要后缀名，因为我们只是保存用户的数据，不需要查看他们的数据。待用户想下载的时候，再加上后缀名
