@@ -1,11 +1,7 @@
 package data_access_object;
 
-import Utils.DoFiles;
-import configuration_files.Source;
 import db_connecter.DBManager;
 import entity.FavoritesItem;
-import entity.Order;
-import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

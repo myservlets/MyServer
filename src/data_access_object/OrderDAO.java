@@ -11,6 +11,48 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class OrderDAO {
+
+
+
+    public static ArrayList<Order> queryUserOrder(String userId) {
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("SELECT * FROM `myapp_schema`.`order` WHERE userId=?");
+
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setString(1,userId);
+
+            resultSet = preparedStatement.executeQuery();
+            ArrayList<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setCost(resultSet.getDouble("cost"));
+                order.setCount(resultSet.getInt("count"));
+                order.setDate(resultSet.getDate("date"));
+                order.setGoodsId(resultSet.getInt("goodsId"));
+                order.setGoods(GoodsDAO.queryGoods(order.getGoodsId()));
+                order.setRemark(resultSet.getString("remark"));
+                order.setStatus(resultSet.getInt("status"));
+                order.setUserId(resultSet.getString("userId"));
+                order.setOrderId(resultSet.getInt("orderId"));
+                orders.add(order);
+            }
+            return orders;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement, resultSet);
+        }
+    }
+
     /**
      * 查询给定用户名的用户的详细信息
      *

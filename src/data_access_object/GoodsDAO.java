@@ -1,10 +1,9 @@
 package data_access_object;
 
-import Utils.DoFiles;
+import utils.DoFiles;
 import configuration_files.Source;
 import db_connecter.DBManager;
 import entity.Goods;
-import entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -280,7 +279,26 @@ public class GoodsDAO {
             DBManager.closeAll(connection, preparedStatement,null);
         }
     }
+    public static int updatePageViews(int goodsId){
+        //获得数据库的连接对象
+        Connection connection = DBManager.getConnection();
+        PreparedStatement preparedStatement = null;
 
+        //生成SQL代码
+        StringBuilder sqlStatement = new StringBuilder();
+        sqlStatement.append("UPDATE goods set pageViews = pageViews+'1' where goodsId=?");
+        //设置数据库的字段值
+        try {
+            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement.setInt(1, goodsId);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } finally {
+            DBManager.closeAll(connection, preparedStatement,null);
+        }
+    }
     public static int updateGoods(Goods goods){
         //获得数据库的连接对象
         Connection connection = DBManager.getConnection();

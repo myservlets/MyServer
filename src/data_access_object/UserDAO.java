@@ -1,12 +1,10 @@
 package data_access_object;
 
-import Utils.DoFiles;
+import utils.DoFiles;
 import configuration_files.Source;
 import db_connecter.DBManager;
 import entity.User;
 
-import javax.jws.soap.SOAPBinding;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -21,23 +21,23 @@ public class HandleGoodsInfoServletTest {
     private int sign = 0;// 0/发布商品 1/查看已发布的商品信息 2/修改商品信息 3//删除 4/查询所有已发布商品
     @Test
     public void doPost() {
-        Goods goods = new Goods();
-        goods.setPicAddress1("picAddress1");
-        goods.setPicAddress2("picAddress2");
-        goods.setPicAddress3("picAddress3");
-        goods.setGoodsName("asdf");
-        goods.setQuantity(2);
-        goods.setInitNum(3);
-        goods.setPrice(11.5);
-        goods.setUserId("2");
-        //handle(publish(goods));//发布
-        String userId = "2";
-        //handle(query(userId));//查询
-        goods.setPrice(18.2);
-        goods.setGoodsId(1);
-        //handle(update(goods));//修改
-        //handle(delete(goods.getGoodsId()));//删除
-        handle(queryAll());
+                Goods goods = new Goods();
+                goods.setPicAddress1("picAddress1");
+                goods.setPicAddress2("picAddress2");
+                goods.setPicAddress3("picAddress3");
+                goods.setGoodsName("asdf");
+                goods.setQuantity(2);
+                goods.setInitNum(3);
+                goods.setPrice(11.5);
+                goods.setUserId("2");
+                //handle(publish(goods));//发布
+                String userId = "2";
+                //handle(query(userId));//查询
+                goods.setPrice(18.2);
+                goods.setGoodsId(1);
+                //handle(update(goods));//修改
+                //handle(delete(goods.getGoodsId()));//删除
+                handle(getGoodsDetails(5));
     }
 
     private void handle(String json) {
@@ -91,7 +91,7 @@ public class HandleGoodsInfoServletTest {
                 System.out.println("商品详情");
                 GoodsDetails goodsDetails = new GoodsDetails();
                 goodsDetails = gson.fromJson(jsonObject.get("goodsDetails").toString(),GoodsDetails.class);
-                System.out.println(goodsDetails);
+                System.out.println(goodsDetails.getRecommendGoods().get(0).getGoodsId());
         }
     }
 

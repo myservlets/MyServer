@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import data_access_object.CommentDAO;
 import data_access_object.GoodsDAO;
+import data_access_object.PageViewsDAO;
 import data_access_object.UserDAO;
 import entity.Goods;
 import entity.GoodsDetails;
@@ -24,15 +25,20 @@ import java.util.Map;
 @WebServlet(name = "HandleGoodsInfoServlet")
 public class HandleGoodsInfoServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 设置响应内容类型
+        response.setContentType("text/html;charset=utf-8");
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+
         System.out.println("HandleGoodsInfo:");
         Goods goods = new Goods();
         Gson gson = new Gson();
 
-        try (PrintWriter out = resp.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
 
             //获得请求中传来的Goods对象
-            BufferedReader reader = req.getReader();
+            BufferedReader reader = request.getReader();
             String json = reader.readLine();
             JsonObject jsonObject = gson.fromJson(json,JsonObject.class);
             int sign = Integer.parseInt(jsonObject.get("sign").toString());
@@ -82,9 +88,8 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                         params.put("status", result);
                         retJson = gson.toJson(params);
                         out.write(retJson);
-                    case 4://查询所有已发布商品
+                    case 4://查询推荐商品
                         result = 8;
-                        goodsArrayList = new ArrayList<>();
                         goodsArrayList = GoodsDAO.queryGoodsList();
                         if (goodsArrayList == null)
                             result = 9;
@@ -95,6 +100,16 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                         result = 10;
                         GoodsDetails goodsDetails = new GoodsDetails();
                         goodsId = Integer.parseInt(jsonObject.get("goodsId").toString());
+                        userId = jsonObject.get("userId").toString();
+                        int i = PageViewsDAO.addGoodsPageViews(userId,goodsId);
+                        if(i == -1) {
+                            result = 11;
+                            params = new HashMap<>();
+                            params.put("status",result);
+                            out.write(gson.toJson(params));
+                            break;
+                        }else if(i==1)
+                            GoodsDAO.updatePageViews(goodsId);
                         goods = GoodsDAO.queryGoods(goodsId);
                         User user = UserDAO.queryUser(goods.getUserId());
                         goodsDetails.setSaler(user);
