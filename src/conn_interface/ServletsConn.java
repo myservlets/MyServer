@@ -30,7 +30,7 @@ public class ServletsConn {
 
 
             InputStream in = conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
             String str = null;
             StringBuffer buffer = new StringBuffer();
             while((str = br.readLine())!=null){
