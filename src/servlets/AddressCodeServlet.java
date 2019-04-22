@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 public class AddressCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         System.out.println("AddressCodeServlet:");
         // 设置响应内容类型
         response.setContentType("text/html;charset=utf-8");
