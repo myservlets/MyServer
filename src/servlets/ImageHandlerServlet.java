@@ -44,6 +44,7 @@ public class ImageHandlerServlet extends HttpServlet {
                 int goodsId=-1;
                 int flag = -1;
                 Goods goods = new Goods();
+                int order = 0;
                 for (FileItem fileItem : list) {
                     // 判断当前段是普通字段还是文件,这个方法是判断普通段
                     if (fileItem.isFormField()) {
@@ -61,6 +62,9 @@ public class ImageHandlerServlet extends HttpServlet {
                             }else if(fname.equals("sign")) {
                                 flag = Integer.parseInt(fileItem.getString("utf-8"));
                                 System.out.println(fname + "=>" + flag);
+                            }else if(fname.equals("sequence_number")){
+                                order = Integer.parseInt(fileItem.getString());
+                                System.out.println(fname + "=>" + order);
                             }
                     } else {
                         if (userId.isEmpty()) {
@@ -95,8 +99,7 @@ public class ImageHandlerServlet extends HttpServlet {
                             break;
                             case 1://用户上传商品图片
                                 in = fileItem.getInputStream();
-                                str1 = fileItem.getName();
-                                int order = Integer.parseInt(fileItem.getFieldName());
+                                str1 = fileItem.getFieldName();
 
 
                                 // 使用用户上传的文件名来保存文件的话，文件名可能重复。
@@ -118,22 +121,23 @@ public class ImageHandlerServlet extends HttpServlet {
                                 IOUtils.copy(in, fos);
                                 fos.close();
                                 switch (order) {
+                                    case 0:
+                                        goods.setPicAddress1(fileName);
+                                        GoodsDAO.updateGoodsPic(goods,1);
+                                        break;
                                     case 1:
                                         goods.setPicAddress1(fileName);
+                                        GoodsDAO.updateGoodsPic(goods,2);
                                         break;
                                     case 2:
-                                        goods.setPicAddress2(fileName);
-                                        break;
-                                    case 3:
-                                        goods.setPicAddress3(fileName);
+                                        goods.setPicAddress1(fileName);
+                                        GoodsDAO.updateGoodsPic(goods,3);
                                         break;
                                 }
                                 break;
                         }
                     }
                 }
-                if(flag==1)
-                    GoodsDAO.updateGoodsPic(goods);
             }
         } catch (Exception e) {
             e.printStackTrace();

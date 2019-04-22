@@ -51,13 +51,14 @@ public class HandleGoodsInfoServlet extends HttpServlet {
                     case 0://发布商品
                         //结果
                         int result = 0;
-                        Goods resGoods = GoodsDAO.insertGoods(goods);
-                        if (resGoods == null)
+                        Goods retGoods = GoodsDAO.insertGoods(goods);
+                        if (retGoods == null)
                             result = 1;
                         Map<String, Integer> params = new HashMap<>();
-
-                        params.put("status", result);
-                        String retJson = gson.toJson(params);
+                        gson = new Gson();
+                        String str=",'goods':" + gson.toJson(retGoods) + "}";
+                        String retJson = "{'status':" + result;
+                        retJson+=str;
                         out.write(retJson);
                         break;
                     case 1://查询已发布的商品列表
