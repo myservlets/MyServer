@@ -12,7 +12,6 @@ public class Goods {
     private String content; //商品简介
     private String type;  //商品的种类
     private String goodsName;
-    private int pageViews;
 
 
 
@@ -102,13 +101,5 @@ public class Goods {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public int getPageViews() {
-        return pageViews;
-    }
-
-    public void setPageViews(int pageViews) {
-        this.pageViews = pageViews;
     }
 }

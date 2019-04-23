@@ -42,7 +42,7 @@ public class DBManager extends HttpServlet {
         try {
             long start =System.currentTimeMillis();
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/myapp_schema", "root", "123456");
+            connection = DriverManager.getConnection(url, username, password);
             long end = System.currentTimeMillis();
             System.out.println("建立连接耗时： " + (end - start) + "ms 毫秒");
         } catch (ClassNotFoundException | InstantiationException

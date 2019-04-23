@@ -67,9 +67,6 @@ public class ImageHandlerServlet extends HttpServlet {
                                 System.out.println(fname + "=>" + order);
                             }
                     } else {
-                        if (userId.isEmpty()) {
-                            break;
-                        }
                         switch (flag) {
                             case 0://用户上传头像
                             // 获得文件上传段中，文件的流
@@ -99,7 +96,7 @@ public class ImageHandlerServlet extends HttpServlet {
                             break;
                             case 1://用户上传商品图片
                                 in = fileItem.getInputStream();
-                                str1 = fileItem.getFieldName();
+                                str1 = fileItem.getName();
 
 
                                 // 使用用户上传的文件名来保存文件的话，文件名可能重复。

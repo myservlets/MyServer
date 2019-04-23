@@ -1,5 +1,6 @@
 package data_access_object;
 
+import com.mysql.jdbc.Statement;
 import utils.DoFiles;
 import configuration_files.Source;
 import db_connecter.DBManager;
@@ -80,7 +81,8 @@ public class GoodsDAO {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Goods goods = new Goods();
-                return resultSet.getInt("goodsId");
+                System.out.println(resultSet);
+                return resultSet.getInt(1);
             } else {
                 return -1;
             }
@@ -258,7 +260,7 @@ public class GoodsDAO {
 
         //设置数据库的字段值
         try {
-            preparedStatement = connection.prepareStatement(sqlStatement.toString());
+            preparedStatement = connection.prepareStatement(sqlStatement.toString(),Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, goods.getInitNum());
             preparedStatement.setInt(2, goods.getQuantity());
             preparedStatement.setString(3, goods.getUserId());
@@ -269,12 +271,12 @@ public class GoodsDAO {
             preparedStatement.setString(8, goods.getPicAddress3());
             preparedStatement.setString(9, goods.getContent());
             preparedStatement.setString(10, goods.getType());
-
-            int goodsId = queryLastGoods();
-            if(goodsId == -1)
-                return null;
-            goods.setGoodsId(goodsId);
             int i = preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();  //取返回的自增主键的id
+            if (generatedKeys.next()){
+                int goodsId = generatedKeys.getInt(1);
+                goods.setGoodsId(goodsId);
+            }
             if (i==1) {
                 return goods;
             } else {
@@ -296,13 +298,12 @@ public class GoodsDAO {
         Goods goods1 = queryGoods(goods.getGoodsId());
         //生成SQL代码
         StringBuilder sqlStatement = new StringBuilder();
-        sqlStatement.append("UPDATE goods set picAddress? = "+goods.getPicAddress1()+
-                " where goodsId = ?");
+        sqlStatement.append("UPDATE goods set picAddress"+sequence_number+ " = ? where goodsId = ?");
         //设置数据库的字段值
         try {
             preparedStatement = connection.prepareStatement(sqlStatement.toString());
-            preparedStatement.setString(1, String.valueOf(sequence_number));
-            preparedStatement.setInt(1, goods.getGoodsId());
+            preparedStatement.setString(1, goods.getPicAddress1());
+            preparedStatement.setInt(2, goods.getGoodsId());
             return preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
